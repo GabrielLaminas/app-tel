@@ -48,5 +48,8 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<array>
+		<string>Feather.ttf</string>
+	</array>
 </dict>
 </plist>
