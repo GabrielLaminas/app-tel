@@ -1,5 +1,10 @@
-import { View, Text, TouchableOpacity, FlatList } from "react-native";
 import React from "react";
+import { View, Text, TouchableOpacity, FlatList } from "react-native";
+import { 
+   MainView, MainTitle, InfoView, InfoViewText, 
+   CardView, CardViewNome, CardViewNumero, CardViewEmail, CardViewExtra 
+} from "./ContatoStyle.js";
+import IconPlus from "react-native-vector-icons/Feather.js"; 
 
 const data = [
    {
@@ -26,36 +31,44 @@ const data = [
 ]
 
 function Contato() {
+
+   function renderItem({item}) {
+      return <Card data={item} />
+   } 
+
    return (
-      <View>
-         <Text>LISTA DE CONTATOS</Text>
+      <MainView>
+         <MainTitle>LISTA DE CONTATOS</MainTitle>
 
-         <View>
-            <Text>{data.length} contatos</Text>
+         <InfoView>
+            <InfoViewText>{data.length} contatos</InfoViewText>
+
             <TouchableOpacity>
-               <Text>Novo Contato</Text>
+               <IconPlus name="user-plus" size={28} color="black" />
             </TouchableOpacity>
-         </View>
+         </InfoView>
 
-         <FlatList 
+         <FlatList
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{paddingTop: 16}}
             data={data}
-            renderItem={({item}) => <Card data={item} />}
+            renderItem={renderItem}
             keyExtractor={(item) => item.id}
          />
-      </View>
+      </MainView>
    );
 }
 
 function Card({data}){
    return (
-      <View>
-         <TouchableOpacity>
-            <Text>{data.nome}</Text>
-            <Text>{data.numero}</Text>
-            <Text>{data.email}</Text>
-            <Text>{data.extra ? data.extra : ""}</Text>
-         </TouchableOpacity>
-      </View>
+      <TouchableOpacity style={{marginBottom: 16}}>
+         <CardView>
+            <CardViewNome>{data.nome}</CardViewNome>
+            <CardViewNumero>{data.numero}</CardViewNumero>
+            <CardViewEmail>{data.email}</CardViewEmail>
+            <CardViewExtra>{data.extra ? data.extra : ""}</CardViewExtra>
+         </CardView>
+      </TouchableOpacity>
    )
 }
 
