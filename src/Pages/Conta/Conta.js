@@ -14,20 +14,26 @@ function Conta() {
 
             <ContainerInput>
                <View>
-                  <TextLabel>Nome</TextLabel>
-                  <Input 
+                  <TextLabel nativeID="formLabelNome">Nome</TextLabel>
+                  <Input
+                     accessibilityLabel="input"
+                     accessibilityLabelledBy="formLabelNome" 
                   />
                </View>
 
                <View>
-                  <TextLabel>Email</TextLabel>
+                  <TextLabel nativeID="formLabelEmail">Email</TextLabel>
                   <Input 
+                     accessibilityLabel="input"
+                     accessibilityLabelledBy="formLabelEmail" 
                   />
                </View>
 
                <View>
-                  <TextLabel>Senha</TextLabel>
-                  <Input 
+                  <TextLabel nativeID="formLabelSenha">Senha</TextLabel>
+                  <Input
+                     accessibilityLabel="input"
+                     accessibilityLabelledBy="formLabelSenha"  
                   />
                </View>
             </ContainerInput>

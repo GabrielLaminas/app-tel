@@ -7,7 +7,7 @@ import ContatoUsuario from "./src/Pages/ContatoUsuario/ContatoUsuario.js";
 
 const App = () => {
   return (
-    <ContatoUsuario />
+    <Conta />
   );
 };
 
