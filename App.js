@@ -13,11 +13,32 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Login" component={Login} />
+      <Stack.Navigator initialRouteName='Login'>
+        <Stack.Screen 
+          name="Login" 
+          component={Login} 
+          options={{ 
+            headerShown: false
+          }}
+        />
+        <Stack.Screen 
+          name="Conta" 
+          component={Conta}
+          options={configHeader} 
+        />
+        <Stack.Screen 
+          name="Contato" 
+          component={Contato} 
+          options={configHeader} 
+        />
+        <Stack.Screen name="Usuario" component={ContatoUsuario} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
+
+const configHeader = {
+  headerShown: false
+}
 
 export default App;

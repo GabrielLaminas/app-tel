@@ -39,7 +39,12 @@ const ButtonContaText = styled.Text`
 const ButtonEntrar = styled.TouchableOpacity`
    margin-top: 24px;
    padding: 14px;
-   background-color: green;
+   display: flex;
+   flex-direction: row;
+   gap: 8px;
+   align-items: center;
+   justify-content: center;
+   background-color: ${props => props.color ? 'green' : 'gray' };
    border-radius: 4px;
 `;
 
@@ -51,6 +56,11 @@ const ButtonEntrarText = styled.Text`
    color: #fff
 `;
 
+const ErrorText = styled.Text`
+   margin-top: 8px;
+   color: red;
+`;
+
 export { 
-   MainView, MainTitle, ContainerInput, TextLabel, Input, ButtonContaText, ButtonEntrar, ButtonEntrarText
+   MainView, MainTitle, ContainerInput, TextLabel, Input, ButtonContaText, ButtonEntrar, ButtonEntrarText, ErrorText
 };

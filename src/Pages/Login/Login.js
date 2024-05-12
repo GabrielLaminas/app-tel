@@ -11,8 +11,10 @@ import { auth } from "../../Firebase/firebase.js";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 import { schemaLogin } from '../../Validation/validation.js';
+import { useNavigation } from "@react-navigation/native";
 
 function Login() {
+   const { navigate } = useNavigation();
    const [email, setEmail] = React.useState('');
    const [password, setPassWord] = React.useState('');
    const [feedback, setFeedback] = React.useState(null);
@@ -83,7 +85,7 @@ function Login() {
             </View>
          </ContainerInput>
 
-         <TouchableOpacity>
+         <TouchableOpacity onPress={() => navigate('Conta')}>
             <ButtonContaText>Criar uma conta</ButtonContaText>
          </TouchableOpacity>
 
