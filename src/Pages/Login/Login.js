@@ -40,7 +40,7 @@ function Login() {
          }
          if(error.code === 'auth/invalid-credential'){
             setFeedback(null);
-            alert('Verificar se seu email e senha estão corretos')
+            Alert.alert('Verificar se seu email e senha estão corretos')
          }
       } finally {
          Keyboard.dismiss();
@@ -88,8 +88,11 @@ function Login() {
          </TouchableOpacity>
 
          <ButtonEntrar onPress={handleLogin} color={email && password} disabled={email && password ? false : true}>
-            <ButtonEntrarText>Entrar </ButtonEntrarText>
-            {laoding && <ActivityIndicator size={20} color="#fff" />} 
+            {
+               laoding 
+               ? <ActivityIndicator size={27} color="#fff" />
+               : <ButtonEntrarText>Entrar</ButtonEntrarText>
+            }
          </ButtonEntrar>
       </MainView>
       </ScrollView>
