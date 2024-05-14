@@ -26,8 +26,8 @@ function Login() {
          const result = await schemaLogin.validate({email, password}, {abortEarly: false});
 
          if(result.email && result.password){
-            const { user } = await signInWithEmailAndPassword(auth, result.email, result.password);
-            console.log(user)
+            await signInWithEmailAndPassword(auth, result.email, result.password);
+            navigate('Contato');
          }
          setFeedback(null);
          setEmail('');
@@ -39,10 +39,12 @@ function Login() {
                errors[error.path] = error.message;
             });
             setFeedback(errors);
+            return;
          }
          if(error.code === 'auth/invalid-credential'){
             setFeedback(null);
-            Alert.alert('Verificar se seu email e senha estão corretos')
+            Alert.alert('Verificar se seu email e senha estão corretos');
+            return;
          }
       } finally {
          Keyboard.dismiss();

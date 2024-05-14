@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
+import { View, ScrollView, TouchableOpacity, ActivityIndicator, Alert, Keyboard } from "react-native";
 import { 
    MainView, MainTitle, ContainerInput, 
    TextLabel, Input, ButtonContaText, 
@@ -7,6 +7,12 @@ import {
 } from "./ContaStyle.js"
 import { useNavigation } from "@react-navigation/native";
 
+import { schemaConta } from "../../Validation/validation.js";
+
+import { auth, database } from "../../Firebase/firebase.js";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { ref, set } from "firebase/database";
+ 
 function Conta() {
    const { navigate } = useNavigation();
    const [name, setName] = React.useState('');
@@ -16,10 +22,49 @@ function Conta() {
    const [laoding, setLoading] = React.useState(false);
 
    async function handleCreateCount(){
+      try {
+         setLoading(true);
+         const result = await schemaConta.validate({name, email, password}, {abortEarly: false})
+         console.log(result)
+         if(result.name && result.email && result.password){
+            const { user } = await createUserWithEmailAndPassword(auth, result.email, result.password);
+            const referencia = ref(database, `AppTelUser/${user.uid}`);
+               
+            await set(referencia, {
+               name: result.name,
+               email: result.email
+            })
+
+            navigate('Contato');
+         }
+         setFeedback(null);
+         setName('');
+         setEmail('');
+         setPassWord('');
+      } catch (error) {
+         const erros = {};
+         console.log('Entrou aqui', error.code)
+         if(error.inner){
+            error.inner.forEach(e => {
+               erros[e.path] = e.message;
+            });
+            setFeedback(erros);
+            return;
+         }
+
+         if(error.code === 'auth/email-already-exists' || error.code === 'auth/email-already-in-use'){
+            setFeedback(null);
+            Alert.alert('E-mail já foi cadastrado!')
+            return;
+         }
+      } finally {
+         Keyboard.dismiss();
+         setLoading(false);
+      }
    }
 
    return (
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
          <MainView>
             <MainTitle>CRIAR CONTA</MainTitle>
 
@@ -27,6 +72,7 @@ function Conta() {
                <View>
                   <TextLabel nativeID="formLabelNome">Nome</TextLabel>
                   <Input
+                     autoFocus={true}
                      accessibilityLabel="input"
                      accessibilityLabelledBy="formLabelNome"
                      value={name}
