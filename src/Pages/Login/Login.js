@@ -26,8 +26,8 @@ function Login() {
          const result = await schemaLogin.validate({email, password}, {abortEarly: false});
 
          if(result.email && result.password){
-            await signInWithEmailAndPassword(auth, result.email, result.password);
-            navigate('Contato');
+            const { user } = await signInWithEmailAndPassword(auth, result.email, result.password);
+            navigate('Contato', {uid: user.uid});
          }
          setFeedback(null);
          setEmail('');
