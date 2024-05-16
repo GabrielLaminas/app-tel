@@ -7,10 +7,41 @@ import {
 import IconEdit from "react-native-vector-icons/Feather.js"; 
 import IconDelete from "react-native-vector-icons/Feather.js"; 
 
+import { database } from "../../Firebase/firebase.js";
+import { ref, child, get } from "firebase/database";
+import { useRoute } from "@react-navigation/native";
+
 function ContatoUsuario() {
+   const { params } = useRoute()
+   const [userInfo, setUserInfo] = React.useState({});
+   const uid = '8RsRuXyaNMP6BlHntx7TD9iCBZl1';
+
+   React.useState(() => {
+      async function getUserInfo(){
+         try {
+            const referencia = ref(database);
+            const snapshot = await get(child(referencia, `AppTelContato/${uid}/${params?.id}`));
+            
+            if(!snapshot.exists()) return;
+
+            const data = {
+               nome: snapshot.val().nome,
+               numero: snapshot.val().numero,
+               email: snapshot.val().email,
+               extra: snapshot.val().extra,
+            }
+
+            setUserInfo(data);
+         } catch (error) {
+            console.log(error.code)
+         }
+      }
+      getUserInfo()
+   }, [])
+
    return (
       <MainView>
-         <MainTitle>Nome</MainTitle>
+         <MainTitle>{userInfo.nome}</MainTitle>
 
          <ViewIcons>
             <ViewIconsButton>
@@ -25,18 +56,23 @@ function ContatoUsuario() {
          <ViewInfos>
             <ViewInfosItem>
                <ViewInfosItemTitle>Telefone</ViewInfosItemTitle>
-               <ViewInfosItemBody>91 99801-0000</ViewInfosItemBody>
+               <ViewInfosItemBody>{userInfo.numero}</ViewInfosItemBody>
             </ViewInfosItem>
 
             <ViewInfosItem>
                <ViewInfosItemTitle>Email</ViewInfosItemTitle>
-               <ViewInfosItemBody>nome123@xx.com.br</ViewInfosItemBody>
+               <ViewInfosItemBody>{userInfo.email}</ViewInfosItemBody>
             </ViewInfosItem>
 
-            <ViewInfosItem>
-               <ViewInfosItemTitle>Informação extra</ViewInfosItemTitle>
-               <ViewInfosItemBody>Amigo da faculdade</ViewInfosItemBody>
-            </ViewInfosItem>
+            {userInfo.extra 
+               ? (
+                  <ViewInfosItem>
+                     <ViewInfosItemTitle>Informação extra</ViewInfosItemTitle>
+                     <ViewInfosItemBody>{userInfo.extra}</ViewInfosItemBody>
+                  </ViewInfosItem>
+               )
+               : ""
+            }
          </ViewInfos>
       </MainView>
    );
