@@ -8,7 +8,7 @@ import IconPlus from "react-native-vector-icons/Feather.js";
 
 import { database } from "../../Firebase/firebase.js";
 import { ref, onValue } from "firebase/database";
-import { useRoute } from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 
 function Contato() {
    //const { params } = useRoute()
@@ -79,8 +79,10 @@ function Contato() {
 }
 
 function Card({data}){
+   const { navigate } = useNavigation();
+   
    return (
-      <TouchableOpacity style={{marginBottom: 16}}>
+      <TouchableOpacity style={{marginBottom: 16}} onPress={() => navigate('Usuario', {id: data.id})}>
          <CardView>
             <CardViewNome>{data.nome}</CardViewNome>
             <CardViewNumero>{data.numero}</CardViewNumero>

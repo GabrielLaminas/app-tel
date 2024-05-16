@@ -31,7 +31,17 @@ const App = () => {
           component={Contato} 
           options={configHeader} 
         />
-        <Stack.Screen name="Usuario" component={ContatoUsuario} />
+        <Stack.Screen 
+          name="Usuario" 
+          component={ContatoUsuario} 
+          options={{
+            headerTitle: '',
+            headerStyle: {
+              backgroundColor: 'transparent'
+            },
+            headerShadowVisible: false
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
