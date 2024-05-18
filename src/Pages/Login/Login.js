@@ -26,8 +26,8 @@ function Login() {
          const result = await schemaLogin.validate({email, password}, {abortEarly: false});
 
          if(result.email && result.password){
-            const { user } = await signInWithEmailAndPassword(auth, result.email, result.password);
-            navigate('Contato', {uid: user.uid});
+            await signInWithEmailAndPassword(auth, result.email, result.password);
+            navigate('Contato');
          }
          setFeedback(null);
          setEmail('');
@@ -54,51 +54,51 @@ function Login() {
 
    return (
       <ScrollView showsVerticalScrollIndicator={false}>
-      <MainView>
-         <MainTitle>LISTA TELEFONICA</MainTitle>
+         <MainView>
+            <MainTitle>LISTA TELEFONICA</MainTitle>
 
-         <ViewIcon>
-            <Icon name="phone" size={60} color="#fff" />
-         </ViewIcon>
+            <ViewIcon>
+               <Icon name="phone" size={60} color="#fff" />
+            </ViewIcon>
 
-         <ContainerInput>
-            <View>
-               <TextLabel nativeID="formLabelEmail">Email</TextLabel>
-               <Input 
-                  autoFocus={true}
-                  accessibilityLabel="input"
-                  accessibilityLabelledBy="formLabelEmail"
-                  keyboardType="email-address"
-                  value={email}
-                  onChangeText={(text) => setEmail(text.trim())}
-               />
-               {feedback?.email && <ErrorText>{feedback.email}</ErrorText>}
-            </View>
+            <ContainerInput>
+               <View>
+                  <TextLabel nativeID="formLabelEmail">Email</TextLabel>
+                  <Input 
+                     autoFocus={true}
+                     accessibilityLabel="input"
+                     accessibilityLabelledBy="formLabelEmail"
+                     keyboardType="email-address"
+                     value={email}
+                     onChangeText={(text) => setEmail(text.trim())}
+                  />
+                  {feedback?.email && <ErrorText>{feedback.email}</ErrorText>}
+               </View>
 
-            <View>
-               <TextLabel nativeID="formLabelSenha">Senha</TextLabel>
-               <Input
-                  accessibilityLabel="input"
-                  accessibilityLabelledBy="formLabelSenha"
-                  value={password}
-                  onChangeText={(text) => setPassWord(text.trim())}
-               />
-               {feedback?.password && <ErrorText>{feedback.password}</ErrorText>}
-            </View>
-         </ContainerInput>
+               <View>
+                  <TextLabel nativeID="formLabelSenha">Senha</TextLabel>
+                  <Input
+                     accessibilityLabel="input"
+                     accessibilityLabelledBy="formLabelSenha"
+                     value={password}
+                     onChangeText={(text) => setPassWord(text.trim())}
+                  />
+                  {feedback?.password && <ErrorText>{feedback.password}</ErrorText>}
+               </View>
+            </ContainerInput>
 
-         <TouchableOpacity onPress={() => navigate('Conta')}>
-            <ButtonContaText>Criar uma conta</ButtonContaText>
-         </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigate('Conta')}>
+               <ButtonContaText>Criar uma conta</ButtonContaText>
+            </TouchableOpacity>
 
-         <ButtonEntrar onPress={handleLogin} color={email && password} disabled={email && password ? false : true}>
-            {
-               laoding 
-               ? <ActivityIndicator size={27} color="#fff" />
-               : <ButtonEntrarText>Entrar</ButtonEntrarText>
-            }
-         </ButtonEntrar>
-      </MainView>
+            <ButtonEntrar onPress={handleLogin} color={email && password} disabled={email && password ? false : true}>
+               {
+                  laoding 
+                  ? <ActivityIndicator size={27} color="#fff" />
+                  : <ButtonEntrarText>Entrar</ButtonEntrarText>
+               }
+            </ButtonEntrar>
+         </MainView>
       </ScrollView>
    );
 }

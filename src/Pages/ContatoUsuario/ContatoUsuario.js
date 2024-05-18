@@ -1,4 +1,3 @@
-import { View, Text } from "react-native";
 import React from "react";
 import { 
    MainView, MainTitle, ViewIcons, ViewIconsButton, 
@@ -7,20 +6,20 @@ import {
 import IconEdit from "react-native-vector-icons/Feather.js"; 
 import IconDelete from "react-native-vector-icons/Feather.js"; 
 
-import { database } from "../../Firebase/firebase.js";
+import { database, useAuth } from "../../Firebase/firebase.js";
 import { ref, child, get } from "firebase/database";
 import { useRoute } from "@react-navigation/native";
 
 function ContatoUsuario() {
    const { params } = useRoute()
    const [userInfo, setUserInfo] = React.useState({});
-   const uid = '8RsRuXyaNMP6BlHntx7TD9iCBZl1';
+   const user = useAuth();
 
-   React.useState(() => {
+   React.useEffect(() => {
       async function getUserInfo(){
          try {
             const referencia = ref(database);
-            const snapshot = await get(child(referencia, `AppTelContato/${uid}/${params?.id}`));
+            const snapshot = await get(child(referencia, `AppTelContato/${user}/${params?.id}`));
             
             if(!snapshot.exists()) return;
 
@@ -37,7 +36,7 @@ function ContatoUsuario() {
          }
       }
       getUserInfo()
-   }, [])
+   }, [user])
 
    return (
       <MainView>

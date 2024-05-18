@@ -1,4 +1,3 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import Login from './src/Pages/Login/Login.js';
 import Conta from './src/Pages/Conta/Conta.js';
@@ -13,7 +12,7 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Contato">
+      <Stack.Navigator initialRouteName="Login">
         <Stack.Screen 
           name="Login" 
           component={Login} 
