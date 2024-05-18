@@ -10,9 +10,12 @@ import { database, useAuth } from "../../Firebase/firebase.js";
 import { ref, onValue } from "firebase/database";
 import { useNavigation } from "@react-navigation/native";
 
+import CreateContact from "../../Components/Modal/CreateContact.js";
+
 function Contato() {
    const [dataNumbers, setDataNumbers] = React.useState([]);
    const [laoding, setLoading] = React.useState(false);
+   const [showModal, setShowModal] = React.useState(false);
    const user = useAuth();
 
    React.useEffect(() => {
@@ -59,7 +62,7 @@ function Contato() {
                {dataNumbers?.length > 1 ? `${dataNumbers.length} contatos` : dataNumbers?.length === 1 ? `${dataNumbers.length} contato` : ''}
             </InfoViewText>
 
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => setShowModal(true)}>
                <IconPlus name="user-plus" size={28} color="black" />
             </TouchableOpacity>
          </InfoView>
@@ -77,6 +80,8 @@ function Contato() {
                />
             ) : <NoItemsList>Você não possui contatos</NoItemsList>
          }
+
+         <CreateContact visible={showModal} setVisible={setShowModal} />
       </MainView>
    );
 }
