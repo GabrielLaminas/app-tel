@@ -1,24 +1,25 @@
 import React from "react";
-import { View, Text, TouchableOpacity, FlatList, ActivityIndicator } from "react-native";
+import { TouchableOpacity, FlatList, ActivityIndicator } from "react-native";
 import { 
    MainView, MainTitle, InfoView, InfoViewText, 
-   CardView, CardViewNome, CardViewNumero, CardViewEmail, CardViewExtra 
+   CardView, CardViewNome, CardViewNumero, CardViewEmail, CardViewExtra, NoItemsList 
 } from "./ContatoStyle.js";
 import IconPlus from "react-native-vector-icons/Feather.js"; 
 
-import { database } from "../../Firebase/firebase.js";
+import { database, useAuth } from "../../Firebase/firebase.js";
 import { ref, onValue } from "firebase/database";
-import { useRoute, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 function Contato() {
-   //const { params } = useRoute()
    const [dataNumbers, setDataNumbers] = React.useState([]);
-   const uid = '8RsRuXyaNMP6BlHntx7TD9iCBZl1';
+   const [laoding, setLoading] = React.useState(false);
+   const user = useAuth();
 
    React.useEffect(() => {
       async function getDataNumbers(){
          try {
-            const referencia = ref(database, `AppTelContato/${uid}`);
+            setLoading(true);
+            const referencia = ref(database, `AppTelContato/${user}`);
 
             onValue(referencia, (snapshot) => {
                if(!snapshot.exists()) return;
@@ -33,17 +34,17 @@ function Contato() {
                      email: child.val().email,
                      extra: child.val().extra
                   }
-                  setDataNumbers((prevNumbers) => [...prevNumbers, data])
+                  setDataNumbers((prevNumbers) => [...prevNumbers, data]);
                });           
             })
          } catch (error) {
-            console.log(error.code, error.message)
+            console.log(error.code, error.message);
          } finally {
-
+            setLoading(false);
          }
       }
-      getDataNumbers()
-   }, [])
+      getDataNumbers();
+   }, [user]);
 
    function renderItem({item}) {
       return <Card data={item} />
@@ -54,7 +55,9 @@ function Contato() {
          <MainTitle>LISTA DE CONTATOS</MainTitle>
 
          <InfoView>
-            <InfoViewText>{dataNumbers?.length} contatos</InfoViewText>
+            <InfoViewText>
+               {dataNumbers?.length > 1 ? `${dataNumbers.length} contatos` : dataNumbers?.length === 1 ? `${dataNumbers.length} contato` : ''}
+            </InfoViewText>
 
             <TouchableOpacity>
                <IconPlus name="user-plus" size={28} color="black" />
@@ -62,8 +65,9 @@ function Contato() {
          </InfoView>
 
          {
-            dataNumbers?.length > 0 
-            ? (
+            laoding
+            ? <ActivityIndicator color="gray" size={30} />
+            : dataNumbers?.length > 0 ? (
                <FlatList
                   showsVerticalScrollIndicator={false}
                   contentContainerStyle={{paddingTop: 16}}
@@ -71,8 +75,7 @@ function Contato() {
                   renderItem={renderItem}
                   keyExtractor={(item) => item.id}
                />
-            )
-            : <ActivityIndicator color="gray" size={30} />
+            ) : <NoItemsList>Você não possui contatos</NoItemsList>
          }
       </MainView>
    );

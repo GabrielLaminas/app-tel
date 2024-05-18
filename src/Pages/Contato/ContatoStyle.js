@@ -50,7 +50,15 @@ const CardViewExtra = styled.Text`
    font-weight: 400;
 `;
 
+const NoItemsList = styled.Text`
+   font-size: 16px;
+   font-weight: 400;
+   text-align: center;
+   color: black
+`;
+
 export { 
    MainView, MainTitle, InfoView, InfoViewText, 
-   CardView, CardViewNome, CardViewNumero, CardViewEmail, CardViewExtra 
+   CardView, CardViewNome, CardViewNumero, CardViewEmail, CardViewExtra,
+   NoItemsList 
 }
