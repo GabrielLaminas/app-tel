@@ -7,7 +7,7 @@ import {
    ContainerButtons, ButtonSave, ButtonCancel, ButtonText
 } from "./ModalStyle.js"
 
-import React from "react";
+import {useState} from "react";
 
 import { schemaModal } from '../../Validation/validation.js';
 
@@ -15,12 +15,12 @@ import { useAuth, database } from "../../Firebase/firebase.js";
 import { ref, child, push, set } from 'firebase/database';
 
 const CreateContact = ({visible, setVisible}) => {
-   const [name, setName] = React.useState('');
-   const [email, setEmail] = React.useState('');
-   const [phone, setPhone] = React.useState('');
-   const [extra, setExtra] = React.useState('');
-   const [feedback, setFeedback] = React.useState({});
-   const [loading, setLoading] = React.useState(false);
+   const [name, setName] = useState('');
+   const [email, setEmail] = useState('');
+   const [phone, setPhone] = useState('');
+   const [extra, setExtra] = useState('');
+   const [feedback, setFeedback] = useState({});
+   const [loading, setLoading] = useState(false);
    const user = useAuth();
 
    async function createContact(){

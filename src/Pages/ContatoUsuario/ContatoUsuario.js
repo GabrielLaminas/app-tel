@@ -1,4 +1,5 @@
-import React from "react";
+import { useState, useEffect } from "react";
+import { Alert } from "react-native";
 import { 
    MainView, MainTitle, ViewIcons, ViewIconsButton, 
    ViewInfos, ViewInfosItem, ViewInfosItemTitle, ViewInfosItemBody 
@@ -7,15 +8,16 @@ import IconEdit from "react-native-vector-icons/Feather.js";
 import IconDelete from "react-native-vector-icons/Feather.js"; 
 
 import { database, useAuth } from "../../Firebase/firebase.js";
-import { ref, child, get } from "firebase/database";
-import { useRoute } from "@react-navigation/native";
+import { ref, child, get, remove } from "firebase/database";
+import { useRoute, useNavigation } from "@react-navigation/native";
 
 function ContatoUsuario() {
-   const { params } = useRoute()
-   const [userInfo, setUserInfo] = React.useState({});
+   const { params } = useRoute();
+   const { navigate } = useNavigation();
+   const [userInfo, setUserInfo] = useState({});
    const user = useAuth();
 
-   React.useEffect(() => {
+   useEffect(() => {
       async function getUserInfo(){
          try {
             const referencia = ref(database);
@@ -36,7 +38,34 @@ function ContatoUsuario() {
          }
       }
       getUserInfo()
-   }, [user])
+   }, [user]);
+
+   async function removeContact(){
+      try {
+         if(!user) return;
+         const referencia = ref(database, `AppTelContato/${user}/${params?.id}`);
+         Alert.alert(
+            'Excluir Contato', 
+            'Tem certeza que deseja excluir contato?',
+            [ 
+               {
+                  text: 'EXCLUIR',
+                  onPress: async () => {
+                     await remove(referencia);
+                     navigate('Contato');
+                  },
+                  style: 'destructive'
+               }, 
+               {
+                  text: 'CANCELAR',
+                  style: 'cancel'
+               }
+            ]
+         )
+      } catch (error) {
+         console.log(error.message)
+      }
+   }
 
    return (
       <MainView>
@@ -47,7 +76,7 @@ function ContatoUsuario() {
                <IconEdit name="user-check" size={24} color="white" />
             </ViewIconsButton>
             
-            <ViewIconsButton>
+            <ViewIconsButton onPress={removeContact}>
                <IconDelete name="user-x" size={24} color="white" />
             </ViewIconsButton>
          </ViewIcons>
