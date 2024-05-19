@@ -44,7 +44,7 @@ const ContainerButtons = styled.View`
 const ButtonSave = styled.TouchableOpacity`
    flex: 1;
    padding: 16px 12px;
-   background-color: #b2bec3;
+   background-color: ${ props => props.color ? 'green' : '#b2bec3'};
 `;
 
 const ButtonCancel = styled.TouchableOpacity`
@@ -60,30 +60,7 @@ const ButtonText = styled.Text`
    text-align: center;
 `;
 
-/*
-
-const ButtonEntrar = styled.TouchableOpacity`
-   margin-top: 24px;
-   padding: 14px;
-   display: flex;
-   flex-direction: row;
-   gap: 8px;
-   align-items: center;
-   justify-content: center;
-   background-color: ${props => props.color ? 'green' : 'gray' };
-   border-radius: 4px;
-`;
-
-const ButtonEntrarText = styled.Text`
-   text-align: center;
-   font-size: 20px;
-   font-weight: 600;
-   text-transform: uppercase;
-   color: #fff
-`;
-*/
-
 export { 
-   ModalView, MainTitle, ContainerInput, TextLabel, Input,
+   ModalView, MainTitle, ContainerInput, TextLabel, Input, ErrorText,
    ContainerButtons, ButtonSave, ButtonCancel, ButtonText
 }
