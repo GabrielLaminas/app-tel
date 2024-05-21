@@ -11,10 +11,13 @@ import { database, useAuth } from "../../Firebase/firebase.js";
 import { ref, child, get, remove } from "firebase/database";
 import { useRoute, useNavigation } from "@react-navigation/native";
 
+import EditContact from "../../Components/Modal/EditContact.js";
+
 function ContatoUsuario() {
    const { params } = useRoute();
    const { navigate } = useNavigation();
    const [userInfo, setUserInfo] = useState({});
+   const [visible, setVisible] = useState(false);
    const user = useAuth();
 
    useEffect(() => {
@@ -72,7 +75,7 @@ function ContatoUsuario() {
          <MainTitle>{userInfo.nome}</MainTitle>
 
          <ViewIcons>
-            <ViewIconsButton>
+            <ViewIconsButton onPress={() => setVisible(true)}>
                <IconEdit name="user-check" size={24} color="white" />
             </ViewIconsButton>
             
@@ -102,6 +105,12 @@ function ContatoUsuario() {
                : ""
             }
          </ViewInfos>
+
+         <EditContact 
+            visible={visible}
+            setVisible={setVisible}
+            uid={params?.id}  
+         />
       </MainView>
    );
 }
