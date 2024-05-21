@@ -7,14 +7,14 @@ import {
    ContainerButtons, ButtonSave, ButtonCancel, ButtonText
 } from "./ModalStyle.js"
 
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 import { schemaModal } from '../../Validation/validation.js';
 
 import { useAuth, database } from "../../Firebase/firebase.js";
-import { ref, child, push, set } from 'firebase/database';
+import { ref, update } from 'firebase/database';
 
-const CreateContact = ({visible, setVisible}) => {
+const EditContact = ({visible, setVisible, uid}) => {
    const [name, setName] = useState('');
    const [email, setEmail] = useState('');
    const [phone, setPhone] = useState('');
@@ -23,16 +23,15 @@ const CreateContact = ({visible, setVisible}) => {
    const [loading, setLoading] = useState(false);
    const user = useAuth();
 
-   async function createContact(){
+   async function editContact(){
       try {
          if(!user) return;
          setLoading(true);
-         const newKey = push(child(ref(database), `AppTelContato/${user}`)).key;
-         const referencia = ref(database, `AppTelContato/${user}`);
+         const referencia = ref(database, `AppTelContato/${user}/${uid}`);
          const result = await schemaModal.validate({name, email, phone, extra}, {abortEarly: false});
 
          if(result.name && result.email && result.phone){
-            await set(child(referencia, newKey), {
+            await update(referencia, {
                nome: result.name,
                email: result.email,
                numero: result.phone,
@@ -70,16 +69,16 @@ const CreateContact = ({visible, setVisible}) => {
       >
          <ModalView>
             <ScrollView showsVerticalScrollIndicator={false}>
-               <MainTitle>Criar Contato</MainTitle>
+               <MainTitle>Editar Contato</MainTitle>
 
                <ContainerInput>
                   <View>
                      <TextLabel nativeID="formLabelName">Nome *</TextLabel>
                      <Input 
-                        autoFocus={true}
                         accessibilityLabel="input"
                         accessibilityLabelledBy="formLabelName"
                         value={name}
+                        //defaultValue={}
                         onChangeText={(text) => setName(text)}
                      />
                      {feedback?.name && <ErrorText>{feedback.name}</ErrorText>}
@@ -92,6 +91,7 @@ const CreateContact = ({visible, setVisible}) => {
                         accessibilityLabelledBy="formLabelEmail"
                         keyboardType="email-address"
                         value={email}
+                        //defaultValue={emailC}
                         onChangeText={(text) => setEmail(text.trim())}
                      />
                      {feedback?.email && <ErrorText>{feedback.email}</ErrorText>}
@@ -104,6 +104,7 @@ const CreateContact = ({visible, setVisible}) => {
                         accessibilityLabelledBy="formLabelTelefone"
                         placeholder="(XX) XXXXX-XXXX ou XXXXXXXXXXX"
                         value={phone}
+                        //defaultValue={telefoneC}
                         onChangeText={(text) => setPhone(text)}
                      />
                      {feedback?.phone && <ErrorText>{feedback.phone}</ErrorText>}
@@ -115,6 +116,7 @@ const CreateContact = ({visible, setVisible}) => {
                         accessibilityLabel="input"
                         accessibilityLabelledBy="formLabelInformaçãoExtra"
                         value={extra}
+                        //defaultValue={extraC}
                         onChangeText={(text) => setExtra(text)}
                      />
                   </View>
@@ -122,13 +124,13 @@ const CreateContact = ({visible, setVisible}) => {
 
                <ContainerButtons>
                   <ButtonSave 
-                     onPress={createContact}
+                     onPress={editContact}
                      color={name && email && phone} 
                      disabled={name && email && phone ? false : true} 
                   >
                      {loading 
                         ? <ActivityIndicator size={27} color="#fff" />
-                        : <ButtonText>SALVAR</ButtonText>
+                        : <ButtonText>EDIT</ButtonText>
                      }
                   </ButtonSave>
 
@@ -142,4 +144,4 @@ const CreateContact = ({visible, setVisible}) => {
    );
 };
 
-export default CreateContact;
+export default EditContact;
