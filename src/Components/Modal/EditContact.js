@@ -3,25 +3,29 @@ import {
    ActivityIndicator
 } from "react-native";
 import {
-   ModalView, MainTitle, ContainerInput, TextLabel, Input, ErrorText,
-   ContainerButtons, ButtonSave, ButtonCancel, ButtonText
+   ModalView, MainTitle, ContainerInput, TextLabel, Input, ErrorText, ContainerButtons, ButtonSave, ButtonCancel, ButtonText
 } from "./ModalStyle.js"
 
 import {useEffect, useState} from "react";
-
 import { schemaModal } from '../../Validation/validation.js';
-
 import { useAuth, database } from "../../Firebase/firebase.js";
 import { ref, update } from 'firebase/database';
 
-const EditContact = ({visible, setVisible, uid}) => {
-   const [name, setName] = useState('');
-   const [email, setEmail] = useState('');
-   const [phone, setPhone] = useState('');
-   const [extra, setExtra] = useState('');
+function EditContact({visible, setVisible, uid, userName, userPhone, userEmail, userExtra}){
+   const [name, setName] = useState(userName);
+   const [email, setEmail] = useState(userEmail);
+   const [phone, setPhone] = useState(userPhone);
+   const [extra, setExtra] = useState(userExtra);
    const [feedback, setFeedback] = useState({});
    const [loading, setLoading] = useState(false);
    const user = useAuth();
+
+   useEffect(() => {
+      setName(userName);
+      setEmail(userEmail);
+      setPhone(userPhone);
+      setExtra(userExtra);
+   }, [userName, userPhone, userEmail, userExtra]);
 
    async function editContact(){
       try {
@@ -38,10 +42,6 @@ const EditContact = ({visible, setVisible, uid}) => {
                extra: result.extra
             });
          }
-         setName('');
-         setEmail('');
-         setPhone('');
-         setExtra('');
          setFeedback({});
          setVisible(false);
       } catch (error) {
@@ -78,7 +78,6 @@ const EditContact = ({visible, setVisible, uid}) => {
                         accessibilityLabel="input"
                         accessibilityLabelledBy="formLabelName"
                         value={name}
-                        //defaultValue={}
                         onChangeText={(text) => setName(text)}
                      />
                      {feedback?.name && <ErrorText>{feedback.name}</ErrorText>}
@@ -91,7 +90,6 @@ const EditContact = ({visible, setVisible, uid}) => {
                         accessibilityLabelledBy="formLabelEmail"
                         keyboardType="email-address"
                         value={email}
-                        //defaultValue={emailC}
                         onChangeText={(text) => setEmail(text.trim())}
                      />
                      {feedback?.email && <ErrorText>{feedback.email}</ErrorText>}
@@ -104,7 +102,6 @@ const EditContact = ({visible, setVisible, uid}) => {
                         accessibilityLabelledBy="formLabelTelefone"
                         placeholder="(XX) XXXXX-XXXX ou XXXXXXXXXXX"
                         value={phone}
-                        //defaultValue={telefoneC}
                         onChangeText={(text) => setPhone(text)}
                      />
                      {feedback?.phone && <ErrorText>{feedback.phone}</ErrorText>}
@@ -116,7 +113,6 @@ const EditContact = ({visible, setVisible, uid}) => {
                         accessibilityLabel="input"
                         accessibilityLabelledBy="formLabelInformaçãoExtra"
                         value={extra}
-                        //defaultValue={extraC}
                         onChangeText={(text) => setExtra(text)}
                      />
                   </View>

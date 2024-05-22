@@ -47,6 +47,5 @@ const ViewInfosItemBody = styled.Text`
 `;
 
 export {
-   MainView, MainTitle, ViewIcons, ViewIconsButton, 
-   ViewInfos, ViewInfosItem, ViewInfosItemTitle, ViewInfosItemBody
+   MainView, MainTitle, ViewIcons, ViewIconsButton, ViewInfos, ViewInfosItem, ViewInfosItemTitle, ViewInfosItemBody
 }
