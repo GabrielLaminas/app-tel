@@ -8,9 +8,8 @@ import IconEdit from "react-native-vector-icons/Feather.js";
 import IconDelete from "react-native-vector-icons/Feather.js"; 
 
 import { database, useAuth } from "../../Firebase/firebase.js";
-import { ref, child, get, remove } from "firebase/database";
+import { ref, onValue, remove } from "firebase/database";
 import { useRoute, useNavigation } from "@react-navigation/native";
-
 import EditContact from "../../Components/Modal/EditContact.js";
 
 function ContatoUsuario() {
@@ -23,19 +22,21 @@ function ContatoUsuario() {
    useEffect(() => {
       async function getUserInfo(){
          try {
-            const referencia = ref(database);
-            const snapshot = await get(child(referencia, `AppTelContato/${user}/${params?.id}`));
+            const referencia = ref(database, `AppTelContato/${user}/${params?.id}`);
             
-            if(!snapshot.exists()) return;
+            onValue(referencia, (snapshot) => {
+               if(!snapshot.exists()) return;
+               setUserInfo({});
 
-            const data = {
-               nome: snapshot.val().nome,
-               numero: snapshot.val().numero,
-               email: snapshot.val().email,
-               extra: snapshot.val().extra,
-            }
+               const data = {
+                  nome: snapshot.val().nome,
+                  numero: snapshot.val().numero,
+                  email: snapshot.val().email,
+                  extra: snapshot.val().extra,
+               }
 
-            setUserInfo(data);
+               setUserInfo(data);
+            });
          } catch (error) {
             console.log(error.code)
          }
@@ -110,6 +111,10 @@ function ContatoUsuario() {
             visible={visible}
             setVisible={setVisible}
             uid={params?.id}  
+            userName={userInfo.nome}
+            userPhone={userInfo.numero}
+            userEmail={userInfo.email}
+            userExtra={userInfo.extra}
          />
       </MainView>
    );
