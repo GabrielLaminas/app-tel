@@ -50,7 +50,7 @@ function ContatoUsuario() {
          const referencia = ref(database, `AppTelContato/${user}/${params?.id}`);
          Alert.alert(
             'Excluir Contato', 
-            'Tem certeza que deseja excluir contato?',
+            `Tem certeza que deseja excluir ${userInfo.nome}?`,
             [ 
                {
                   text: 'EXCLUIR',

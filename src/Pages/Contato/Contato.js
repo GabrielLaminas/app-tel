@@ -1,4 +1,4 @@
-import React from "react";
+import {useState, useEffect} from "react";
 import { TouchableOpacity, FlatList, ActivityIndicator } from "react-native";
 import { 
    MainView, MainTitle, InfoView, InfoViewText, 
@@ -7,24 +7,24 @@ import {
 import IconPlus from "react-native-vector-icons/Feather.js"; 
 
 import { database, useAuth } from "../../Firebase/firebase.js";
-import { ref, onValue } from "firebase/database";
+import { ref, onValue, query, orderByChild } from "firebase/database";
 import { useNavigation } from "@react-navigation/native";
 
 import CreateContact from "../../Components/Modal/CreateContact.js";
 
 function Contato() {
-   const [dataNumbers, setDataNumbers] = React.useState([]);
-   const [laoding, setLoading] = React.useState(false);
-   const [showModal, setShowModal] = React.useState(false);
+   const [dataNumbers, setDataNumbers] = useState([]);
+   const [laoding, setLoading] = useState(false);
+   const [showModal, setShowModal] = useState(false);
    const user = useAuth();
 
-   React.useEffect(() => {
+   useEffect(() => {
       async function getDataNumbers(){
          try {
             setLoading(true);
             const referencia = ref(database, `AppTelContato/${user}`);
 
-            onValue(referencia, (snapshot) => {
+            onValue(query(referencia, orderByChild('nome')), (snapshot) => {
                if(!snapshot.exists()) return;
                
                setDataNumbers([]);
