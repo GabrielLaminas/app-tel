@@ -1,22 +1,24 @@
-import {useState, useEffect} from "react";
-import { TouchableOpacity, FlatList, ActivityIndicator } from "react-native";
+import {useState, useEffect, useContext} from "react";
+import { TouchableOpacity, FlatList, ActivityIndicator, View } from "react-native";
 import { 
    MainView, MainTitle, InfoView, InfoViewText, 
    CardView, CardViewNome, CardViewNumero, CardViewEmail, CardViewExtra, NoItemsList 
 } from "./ContatoStyle.js";
 import IconPlus from "react-native-vector-icons/Feather.js"; 
+import IconExit from "react-native-vector-icons/Feather.js"; 
 
-import { database, useAuth } from "../../Firebase/firebase.js";
+import { database } from "../../Firebase/firebase.js";
 import { ref, onValue, query, orderByChild } from "firebase/database";
 import { useNavigation } from "@react-navigation/native";
 
 import CreateContact from "../../Components/Modal/CreateContact.js";
+import { UserContext } from "../../context/userContext.js";
 
 function Contato() {
    const [dataNumbers, setDataNumbers] = useState([]);
    const [laoding, setLoading] = useState(false);
    const [showModal, setShowModal] = useState(false);
-   const user = useAuth();
+   const { user, logOut } = useContext(UserContext);
 
    useEffect(() => {
       async function getDataNumbers(){
@@ -47,7 +49,7 @@ function Contato() {
          }
       }
       getDataNumbers();
-   }, [user]);
+   }, []);
 
    function renderItem({item}) {
       return <Card data={item} />
@@ -62,9 +64,15 @@ function Contato() {
                {dataNumbers?.length > 1 ? `${dataNumbers.length} contatos` : dataNumbers?.length === 1 ? `${dataNumbers.length} contato` : ''}
             </InfoViewText>
 
-            <TouchableOpacity onPress={() => setShowModal(true)}>
-               <IconPlus name="user-plus" size={28} color="black" />
-            </TouchableOpacity>
+            <View style={{flexDirection: 'row', gap: 20}}>
+               <TouchableOpacity onPress={() => setShowModal(true)}>
+                  <IconPlus name="user-plus" size={28} color="black" />
+               </TouchableOpacity>
+
+               <TouchableOpacity onPress={() => logOut()}>
+                  <IconExit name="log-out" size={28} color="black" />
+               </TouchableOpacity>
+            </View>
          </InfoView>
 
          {

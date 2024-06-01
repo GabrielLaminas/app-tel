@@ -80,6 +80,7 @@ function Login() {
                   <Input
                      accessibilityLabel="input"
                      accessibilityLabelledBy="formLabelSenha"
+                     secureTextEntry
                      value={password}
                      onChangeText={(text) => setPassWord(text.trim())}
                   />
