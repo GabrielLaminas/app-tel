@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Alert } from "react-native";
 import { 
    MainView, MainTitle, ViewIcons, ViewIconsButton, 
@@ -7,17 +7,18 @@ import {
 import IconEdit from "react-native-vector-icons/Feather.js"; 
 import IconDelete from "react-native-vector-icons/Feather.js"; 
 
-import { database, useAuth } from "../../Firebase/firebase.js";
+import { database } from "../../Firebase/firebase.js";
 import { ref, onValue, remove } from "firebase/database";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import EditContact from "../../Components/Modal/EditContact.js";
+import { UserContext } from "../../context/userContext.js";
 
 function ContatoUsuario() {
    const { params } = useRoute();
    const { navigate } = useNavigation();
    const [userInfo, setUserInfo] = useState({});
    const [visible, setVisible] = useState(false);
-   const user = useAuth();
+   const { user } = useContext(UserContext);
 
    useEffect(() => {
       async function getUserInfo(){
@@ -42,11 +43,10 @@ function ContatoUsuario() {
          }
       }
       getUserInfo()
-   }, [user]);
+   }, []);
 
    async function removeContact(){
       try {
-         if(!user) return;
          const referencia = ref(database, `AppTelContato/${user}/${params?.id}`);
          Alert.alert(
             'Excluir Contato', 

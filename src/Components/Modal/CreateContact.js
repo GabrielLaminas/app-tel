@@ -7,12 +7,13 @@ import {
    ContainerButtons, ButtonSave, ButtonCancel, ButtonText
 } from "./ModalStyle.js"
 
-import {useState} from "react";
+import {useState, useContext} from "react";
 
 import { schemaModal } from '../../Validation/validation.js';
 
-import { useAuth, database } from "../../Firebase/firebase.js";
+import { database } from "../../Firebase/firebase.js";
 import { ref, child, push, set } from 'firebase/database';
+import { UserContext } from "../../context/userContext.js";
 
 const CreateContact = ({visible, setVisible}) => {
    const [name, setName] = useState('');
@@ -21,11 +22,10 @@ const CreateContact = ({visible, setVisible}) => {
    const [extra, setExtra] = useState('');
    const [feedback, setFeedback] = useState({});
    const [loading, setLoading] = useState(false);
-   const user = useAuth();
+   const { user } = useContext(UserContext);
 
    async function createContact(){
       try {
-         if(!user) return;
          setLoading(true);
          const newKey = push(child(ref(database), `AppTelContato/${user}`)).key;
          const referencia = ref(database, `AppTelContato/${user}`);

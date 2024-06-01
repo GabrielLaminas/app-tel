@@ -99,6 +99,7 @@ function Conta() {
                      accessibilityLabel="input"
                      accessibilityLabelledBy="formLabelSenha"
                      value={password}
+                     secureTextEntry
                      onChangeText={(text) => setPassWord(text.trim())}   
                   />
                   {feedback?.password && <ErrorText>{feedback.password}</ErrorText>}

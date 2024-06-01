@@ -6,10 +6,11 @@ import {
    ModalView, MainTitle, ContainerInput, TextLabel, Input, ErrorText, ContainerButtons, ButtonSave, ButtonCancel, ButtonText
 } from "./ModalStyle.js"
 
-import {useEffect, useState} from "react";
+import {useEffect, useState, useContext} from "react";
 import { schemaModal } from '../../Validation/validation.js';
-import { useAuth, database } from "../../Firebase/firebase.js";
+import { database } from "../../Firebase/firebase.js";
 import { ref, update } from 'firebase/database';
+import { UserContext } from "../../context/userContext.js";
 
 function EditContact({visible, setVisible, uid, userName, userPhone, userEmail, userExtra}){
    const [name, setName] = useState(userName);
@@ -18,7 +19,7 @@ function EditContact({visible, setVisible, uid, userName, userPhone, userEmail, 
    const [extra, setExtra] = useState(userExtra);
    const [feedback, setFeedback] = useState({});
    const [loading, setLoading] = useState(false);
-   const user = useAuth();
+   const { user } = useContext(UserContext);
 
    useEffect(() => {
       setName(userName);
@@ -29,7 +30,6 @@ function EditContact({visible, setVisible, uid, userName, userPhone, userEmail, 
 
    async function editContact(){
       try {
-         if(!user) return;
          setLoading(true);
          const referencia = ref(database, `AppTelContato/${user}/${uid}`);
          const result = await schemaModal.validate({name, email, phone, extra}, {abortEarly: false});
