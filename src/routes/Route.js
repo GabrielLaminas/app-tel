@@ -1,6 +1,6 @@
 import { View, ActivityIndicator } from "react-native";
 import React from "react";
-
+import Reload from "../Pages/Reload/Reload";
 import {NavigationContainer} from '@react-navigation/native';
 import UserRoute from "./UserRoute";
 import AuthRoute from "./AuthRoute";
@@ -10,13 +10,7 @@ export default function Route() {
    const { credential, loading } = React.useContext(UserContext)
 
    if(loading){
-      return (
-         <View style={{
-            flex: 1, justifyContent: "center", alignItems: 'center'
-         }}>
-            <ActivityIndicator size="large" color="blue" />
-         </View>
-      )
+      return <Reload />
    }
 
    return (
