@@ -16,36 +16,36 @@ import { UserContext } from "../../context/userContext.js";
 
 function Contato() {
    const [dataNumbers, setDataNumbers] = useState([]);
-   const [laoding, setLoading] = useState(false);
+   const [haveData, setHaveData] = useState(null);
    const [showModal, setShowModal] = useState(false);
    const { user, logOut } = useContext(UserContext);
 
    useEffect(() => {
       async function getDataNumbers(){
          try {
-            setLoading(true);
             const referencia = ref(database, `AppTelContato/${user}`);
 
             onValue(query(referencia, orderByChild('nome')), (snapshot) => {
-               if(!snapshot.exists()) return;
-               
-               setDataNumbers([]);
+               if(snapshot.exists()){
+                  setDataNumbers([]);
 
-               snapshot.forEach((child) => {
-                  const data = {
-                     id: child.key,
-                     nome: child.val().nome,
-                     numero: child.val().numero,
-                     email: child.val().email,
-                     extra: child.val().extra
-                  }
-                  setDataNumbers((prevNumbers) => [...prevNumbers, data]);
-               });           
+                  snapshot.forEach((child) => {
+                     const data = {
+                        id: child.key,
+                        nome: child.val().nome,
+                        numero: child.val().numero,
+                        email: child.val().email,
+                        extra: child.val().extra
+                     }
+                     setDataNumbers((prevNumbers) => [...prevNumbers, data]);
+                  });
+                  setHaveData(false);
+               } else{
+                  setHaveData(true);
+               }    
             })
          } catch (error) {
             console.log(error.code, error.message);
-         } finally {
-            setLoading(false);
          }
       }
       getDataNumbers();
@@ -76,9 +76,9 @@ function Contato() {
          </InfoView>
 
          {
-            laoding
+            haveData === null 
             ? <ActivityIndicator color="gray" size={30} />
-            : dataNumbers?.length > 0 ? (
+            : haveData === false ? (
                <FlatList
                   showsVerticalScrollIndicator={false}
                   contentContainerStyle={{paddingTop: 16}}

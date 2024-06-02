@@ -12,7 +12,7 @@ const MainTitle = styled.Text`
 `;
 
 const InfoView = styled.View`
-   margin: 38px 0 22px 0;
+   margin: 38px 0 16px 0;
    flex-direction: row;
    justify-content: space-between;
    align-items: center;

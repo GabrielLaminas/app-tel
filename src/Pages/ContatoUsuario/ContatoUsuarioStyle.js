@@ -12,7 +12,7 @@ const MainTitle = styled.Text`
 `;
 
 const ViewIcons = styled.View`
-   margin: 30px 0 42px 0;
+   margin: 30px 0 32px 0;
    display: flex;
    flex-direction: row;
    justify-content: flex-end;
