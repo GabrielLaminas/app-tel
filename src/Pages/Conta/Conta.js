@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import { schemaConta } from "../../Validation/validation.js";
 
 import { auth, database } from "../../Firebase/firebase.js";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ref, set } from "firebase/database";
  
 function Conta() {
@@ -25,15 +25,19 @@ function Conta() {
       try {
          setLoading(true);
          const result = await schemaConta.validate({name, email, password}, {abortEarly: false})
-         console.log(result)
+
          if(result.name && result.email && result.password){
             const { user } = await createUserWithEmailAndPassword(auth, result.email, result.password);
             const referencia = ref(database, `AppTelUser/${user.uid}`);
-               
+            
             await set(referencia, {
                name: result.name,
                email: result.email
-            })
+            });
+
+            await updateProfile(user, {
+               displayName: result.name,
+            });   
 
             navigate('Contato');
          }
