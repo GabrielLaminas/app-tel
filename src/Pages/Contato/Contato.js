@@ -4,8 +4,7 @@ import {
    MainView, MainTitle, InfoView, InfoViewText, 
    CardView, CardViewNome, CardViewNumero, CardViewEmail, CardViewExtra, NoItemsList 
 } from "./ContatoStyle.js";
-import IconPlus from "react-native-vector-icons/Feather.js"; 
-import IconExit from "react-native-vector-icons/Feather.js"; 
+import Icon from "react-native-vector-icons/Feather.js"; 
 
 import { database } from "../../Firebase/firebase.js";
 import { ref, onValue, query, orderByChild } from "firebase/database";
@@ -66,11 +65,11 @@ function Contato() {
 
             <View style={{flexDirection: 'row', gap: 20}}>
                <TouchableOpacity onPress={() => setShowModal(true)}>
-                  <IconPlus name="user-plus" size={28} color="black" />
+                  <Icon name="user-plus" size={28} color="black" />
                </TouchableOpacity>
 
                <TouchableOpacity onPress={() => logOut()}>
-                  <IconExit name="log-out" size={28} color="black" />
+                  <Icon name="log-out" size={28} color="black" />
                </TouchableOpacity>
             </View>
          </InfoView>
