@@ -1,10 +1,10 @@
 import React from "react";
 import Contato from "../Pages/Contato/Contato";
 import ContatoUsuario from "../Pages/ContatoUsuario/ContatoUsuario";
-import { Button, View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 
-import { useNavigationState, useRoute, useNavigation, useIsFocused } from '@react-navigation/native';
+import { useNavigationState } from '@react-navigation/native';
 
 import {createDrawerNavigator, DrawerContentScrollView} from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -15,10 +15,8 @@ const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 function CustomDrawerContent({ navigation, user, logOut }) {
-   const hasPhoto = false;
    const state = useNavigationState(state => state);
-
-   // Recursive function to get active route
+   
    const getActiveRoute = (state) => {
       const route = state.routes[state.index];
       if (route.state) {
@@ -32,10 +30,10 @@ function CustomDrawerContent({ navigation, user, logOut }) {
      <DrawerContentScrollView {...navigation} style={style.container}>
          <View style={style.userData}>
             <View style={style.userDataPhoto}>
-               {hasPhoto ? (
-                  <Image source={user.photoURL} resizeMode="cover" /> 
+               {user?.photoURL ? (
+                  <Image source={{uri: user.photoURL}} resizeMode="cover" style={style.userDataPhotoImg} /> 
                ) : (
-                  <View>
+                  <View style={style.userDataPhotoImg}>
                      <Text>{user.displayName[0]}</Text>
                   </View>
                )}
@@ -79,11 +77,19 @@ const style = StyleSheet.create({
       alignItems: 'center',
    },
    userDataPhoto: {
-      width: 140,
-      height: 140,
+      justifyContent: 'center',
+      alignItems: 'center',
+   },
+   userDataPhotoImg: {
+      width: 160,
+      height: 160,
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius: 999,
+      overflow: 'hidden'
+   },
+   userDataPhotoText: {
+      fontSize: 32,
    },
    userDataInfo: {
       gap: 8

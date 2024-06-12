@@ -17,7 +17,7 @@ function Contato() {
    const [dataNumbers, setDataNumbers] = useState([]);
    const [haveData, setHaveData] = useState(null);
    const [showModal, setShowModal] = useState(false);
-   const { user, logOut } = useContext(UserContext);
+   const { user } = useContext(UserContext);
 
    useEffect(() => {
       async function getDataNumbers(){
@@ -66,10 +66,6 @@ function Contato() {
             <View style={{flexDirection: 'row', gap: 20}}>
                <TouchableOpacity onPress={() => setShowModal(true)}>
                   <Icon name="user-plus" size={28} color="black" />
-               </TouchableOpacity>
-
-               <TouchableOpacity onPress={() => logOut()}>
-                  <Icon name="log-out" size={28} color="black" />
                </TouchableOpacity>
             </View>
          </InfoView>
