@@ -18,4 +18,9 @@ const schemaModal = Yup.object().shape({
    extra: Yup.string().notRequired()
 });
 
-export { schemaLogin, schemaConta, schemaModal };
+const schemaPerfil = Yup.object().shape({
+   name: Yup.string().notRequired(),
+   image: Yup.string().notRequired()
+});
+
+export { schemaLogin, schemaConta, schemaModal, schemaPerfil };

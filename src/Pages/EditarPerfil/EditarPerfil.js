@@ -6,6 +6,7 @@ import Icon from "react-native-vector-icons/Feather";
 import { UserContext } from "../../context/userContext";
 import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
+import { schemaPerfil } from "../../Validation/validation";
 
 export default function EditarPerfil() {
    const noPhoto = require('../../Assets/Images/no-user.png');
@@ -56,11 +57,14 @@ export default function EditarPerfil() {
 
    async function updateUser(){
       try {
-         if(image || name){
+         const result = await schemaPerfil.validate({image, name}, {abortEarly: false});
+         console.log(result)
+         if(result.image || result.name){
             await updateProfile(credential, {
-               displayName: name,
-               photoURL: image
+               displayName: result.name,
+               photoURL: result.image
             });
+    
             Alert.alert('Perfil atualizado');
             goBack();
          }
