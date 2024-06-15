@@ -20,32 +20,28 @@ function Contato() {
    const { user } = useContext(UserContext);
 
    useEffect(() => {
-      async function getDataNumbers(){
-         try {
-            const referencia = ref(database, `AppTelContato/${user}`);
+      function getDataNumbers(){
+         const referencia = ref(database, `AppTelContato/${user}`);
+         
+         onValue(query(referencia, orderByChild('nome')), (snapshot) => {
+            if(snapshot.exists()){
+               setDataNumbers([]);
 
-            onValue(query(referencia, orderByChild('nome')), (snapshot) => {
-               if(snapshot.exists()){
-                  setDataNumbers([]);
-
-                  snapshot.forEach((child) => {
-                     const data = {
-                        id: child.key,
-                        nome: child.val().nome,
-                        numero: child.val().numero,
-                        email: child.val().email,
-                        extra: child.val().extra
-                     }
-                     setDataNumbers((prevNumbers) => [...prevNumbers, data]);
-                  });
-                  setHaveData(false);
-               } else{
-                  setHaveData(true);
-               }    
-            })
-         } catch (error) {
-            console.log(error.code, error.message);
-         }
+               snapshot.forEach((child) => {
+                  const data = {
+                     id: child.key,
+                     nome: child.val().nome,
+                     numero: child.val().numero,
+                     email: child.val().email,
+                     extra: child.val().extra
+                  }
+                  setDataNumbers((prevNumbers) => [...prevNumbers, data]);
+               });
+               setHaveData(false);
+            } else{
+               setHaveData(true);
+            }    
+         });
       }
       getDataNumbers();
    }, []);

@@ -21,29 +21,24 @@ function ContatoUsuario() {
    const { user } = useContext(UserContext);
 
    useEffect(() => {
-      async function getUserInfo(){
-         try {
-            const referencia = ref(database, `AppTelContato/${user}/${params?.id}`);
-            
-            onValue(referencia, (snapshot) => {
-               if(!snapshot.exists()) return;
-               setUserInfo({});
+      function getUserInfo(){
+         const referencia = ref(database, `AppTelContato/${user}/${params?.id}`);
+         
+         onValue(referencia, (snapshot) => {
+            if(!snapshot.exists()) return;
+            setUserInfo({});
 
-               const data = {
-                  nome: snapshot.val().nome,
-                  numero: snapshot.val().numero,
-                  email: snapshot.val().email,
-                  extra: snapshot.val().extra,
-               }
-
-               setUserInfo(data);
-            });
-         } catch (error) {
-            console.log(error.code)
-         }
+            const data = {
+               nome: snapshot.val().nome,
+               numero: snapshot.val().numero,
+               email: snapshot.val().email,
+               extra: snapshot.val().extra,
+            }
+            setUserInfo(data);
+         });
       }
       getUserInfo()
-   }, []);
+   }, [params]);
 
    async function removeContact(){
       try {

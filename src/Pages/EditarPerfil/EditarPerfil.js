@@ -58,7 +58,7 @@ export default function EditarPerfil() {
    async function updateUser(){
       try {
          const result = await schemaPerfil.validate({image, name}, {abortEarly: false});
-         console.log(result)
+
          if(result.image || result.name){
             await updateProfile(credential, {
                displayName: result.name,
