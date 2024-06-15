@@ -38,7 +38,7 @@ function ContatoUsuario() {
          });
       }
       getUserInfo()
-   }, [params]);
+   }, [params.id]);
 
    async function removeContact(){
       try {
