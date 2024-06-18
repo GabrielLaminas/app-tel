@@ -37,7 +37,7 @@ const CustomDrawerContent = ({ navigation, user, logOut }) => {
          <View style={style.userNavLink}>
             <TouchableOpacity style={[style.userNavLinkButton, activeRoute.name === 'Contato' && style.userNavLinkButtonActive]} onPress={() => navigation.navigate('Contato')}>
                <Icon name="home" size={24} color={activeRoute.name === 'Contato' ? '#fff' : '#000'}  />
-               <Text style={[style.userNavLinkButtonText, activeRoute.name === 'Contato' && style.userNavLinkButtonTextActive]}>Home</Text>
+               <Text style={[style.userNavLinkButtonText, activeRoute.name === 'Contato' && style.userNavLinkButtonTextActive]}>Tela Principal</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={style.userNavLinkButton} onPress={() => navigation.navigate('EditarPerfil')}>

@@ -57,7 +57,9 @@ export default function UserRoute() {
          <Stack.Screen 
             name="EditarPerfil"
             component={EditarPerfil}
-            //options={configHeader}
+            options={{
+               headerTitle: 'Editar Perfil'
+            }}
          />
       </Stack.Navigator>
    );
