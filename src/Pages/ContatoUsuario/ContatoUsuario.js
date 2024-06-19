@@ -51,7 +51,7 @@ function ContatoUsuario() {
                   text: 'EXCLUIR',
                   onPress: async () => {
                      await remove(referencia);
-                     navigate('Contato');
+                     navigate('Root');
                   },
                   style: 'destructive'
                }, 

@@ -16,7 +16,6 @@ function Root(){
 
    return (
       <Drawer.Navigator
-         initialRouteName="Contato" 
          drawerContent={(props) => <CustomDrawerContent {...props} user={credential} logOut={logOut} />}
       >
          <Drawer.Screen 
@@ -28,17 +27,6 @@ function Root(){
                headerStyle: {
                   backgroundColor: 'transparent'
                }
-            }} 
-         />
-         <Drawer.Screen 
-            name="Usuario"
-            component={ContatoUsuario} 
-            options={{
-               headerTitle: '',
-               headerStyle: {
-                  backgroundColor: 'transparent'
-               },
-               headerShadowVisible: false
             }} 
          />
       </Drawer.Navigator>
@@ -60,6 +48,18 @@ export default function UserRoute() {
             options={{
                headerTitle: 'Editar Perfil'
             }}
+         />
+
+         <Stack.Screen 
+            name="Usuario"
+            component={ContatoUsuario} 
+            options={{
+               headerTitle: '',
+               headerStyle: {
+                  backgroundColor: 'transparent'
+               },
+               headerShadowVisible: false
+            }} 
          />
       </Stack.Navigator>
    );

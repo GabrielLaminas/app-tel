@@ -27,7 +27,7 @@ function Login() {
 
          if(result.email && result.password){
             await signInWithEmailAndPassword(auth, result.email, result.password);
-            navigate('Contato');
+            navigate('Root');
          }
          setFeedback(null);
          setEmail('');

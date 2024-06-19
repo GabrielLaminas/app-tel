@@ -39,7 +39,7 @@ function Conta() {
                displayName: result.name,
             });   
 
-            navigate('Contato');
+            navigate('Root');
          }
          setFeedback(null);
          setName('');
