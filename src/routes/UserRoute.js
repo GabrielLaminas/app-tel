@@ -25,7 +25,7 @@ function Root(){
                headerTitle: '',
                headerShadowVisible: false,
                headerStyle: {
-                  backgroundColor: 'transparent'
+                  backgroundColor: '#FFF'
                }
             }} 
          />
