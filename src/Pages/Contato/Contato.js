@@ -1,10 +1,10 @@
 import {useState, useEffect, useContext} from "react";
 import { TouchableOpacity, FlatList, ActivityIndicator, View } from "react-native";
 import { 
-   MainView, MainTitle, InfoView, InfoViewText, 
-   CardView, CardViewNome, CardViewNumero, CardViewEmail, CardViewExtra, NoItemsList 
+   MainView, InfoView, InfoViewText, InfoViewIcon, CardView, CardViewNome, CardViewNumero, NoItemsList 
 } from "./ContatoStyle.js";
 import Icon from "react-native-vector-icons/Feather.js"; 
+import Title from "../../Components/Title/Title.js";
 
 import { database } from "../../Firebase/firebase.js";
 import { ref, onValue, query, orderByChild } from "firebase/database";
@@ -52,18 +52,18 @@ function Contato() {
 
    return (
       <MainView>
-         <MainTitle>LISTA DE CONTATOS</MainTitle>
+         <Title>LISTA DE CONTATOS</Title>
 
          <InfoView>
             <InfoViewText>
                {dataNumbers?.length > 1 ? `${dataNumbers.length} contatos` : dataNumbers?.length === 1 ? `${dataNumbers.length} contato` : ''}
             </InfoViewText>
 
-            <View style={{flexDirection: 'row', gap: 20}}>
+            <InfoViewIcon>
                <TouchableOpacity onPress={() => setShowModal(true)}>
-                  <Icon name="user-plus" size={28} color="black" />
+                  <Icon name="user-plus" size={24} color="#185A3D" />
                </TouchableOpacity>
-            </View>
+            </InfoViewIcon> 
          </InfoView>
 
          {
@@ -72,7 +72,6 @@ function Contato() {
             : haveData === false ? (
                <FlatList
                   showsVerticalScrollIndicator={false}
-                  contentContainerStyle={{paddingTop: 16}}
                   data={dataNumbers}
                   renderItem={renderItem}
                   keyExtractor={(item) => item.id}
@@ -93,8 +92,6 @@ function Card({data}){
          <CardView>
             <CardViewNome>{data.nome}</CardViewNome>
             <CardViewNumero>{data.numero}</CardViewNumero>
-            <CardViewEmail>{data.email}</CardViewEmail>
-            <CardViewExtra>{data.extra ? data.extra : ""}</CardViewExtra>
          </CardView>
       </TouchableOpacity>
    )
