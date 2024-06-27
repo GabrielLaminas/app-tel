@@ -58,7 +58,7 @@ export default function UserRoute() {
                headerStyle: {
                   backgroundColor: 'transparent'
                },
-               headerShadowVisible: false
+               headerTransparent: true
             }} 
          />
       </Stack.Navigator>

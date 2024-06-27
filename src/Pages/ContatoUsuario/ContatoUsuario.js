@@ -1,8 +1,7 @@
 import { useState, useEffect, useContext } from "react";
-import { Alert } from "react-native";
+import { Alert, ScrollView } from "react-native";
 import { 
-   MainView, MainTitle, ViewIcons, ViewIconsButton, 
-   ViewInfos, ViewInfosItem, ViewInfosItemTitle, ViewInfosItemBody 
+   MainView, ViewName, ViewNameCircle, ViewNameCircleLetter, ViewFullName,  ViewIcons, ViewIconsButton, ViewIconsGroup, ViewIconsGroupText,  ViewInfos, ViewInfosItem, ViewInfosItemTitle, ViewInfosItemBody
 } from "./ContatoUsuarioStyle.js"
 import IconEdit from "react-native-vector-icons/Feather.js"; 
 import IconDelete from "react-native-vector-icons/Feather.js"; 
@@ -68,39 +67,63 @@ function ContatoUsuario() {
 
    return (
       <MainView>
-         <MainTitle>{userInfo.nome}</MainTitle>
+         <ScrollView showsVerticalScrollIndicator={false}>
+            <ViewName>
+               <ViewNameCircle>
+                  <ViewNameCircleLetter>{userInfo.nome?.at(0)}</ViewNameCircleLetter>
+               </ViewNameCircle>
 
-         <ViewIcons>
-            <ViewIconsButton onPress={() => setVisible(true)}>
-               <IconEdit name="user-check" size={24} color="white" />
-            </ViewIconsButton>
-            
-            <ViewIconsButton onPress={removeContact}>
-               <IconDelete name="user-x" size={24} color="white" />
-            </ViewIconsButton>
-         </ViewIcons>
+               <ViewFullName>{userInfo.nome}</ViewFullName>
+            </ViewName>
 
-         <ViewInfos>
-            <ViewInfosItem>
-               <ViewInfosItemTitle>Telefone</ViewInfosItemTitle>
-               <ViewInfosItemBody>{userInfo.numero}</ViewInfosItemBody>
-            </ViewInfosItem>
+            <ViewIcons>
+               <ViewIconsGroup>
+                  <ViewIconsButton onPress={() => setVisible(true)}>
+                     <IconEdit name="edit-2" size={22} color="#45505E" />
+                  </ViewIconsButton>
 
-            <ViewInfosItem>
-               <ViewInfosItemTitle>Email</ViewInfosItemTitle>
-               <ViewInfosItemBody>{userInfo.email}</ViewInfosItemBody>
-            </ViewInfosItem>
+                  <ViewIconsGroupText>Editar</ViewIconsGroupText>
+               </ViewIconsGroup>
+               
+               <ViewIconsGroup>
+                  <ViewIconsButton>
+                     <IconDelete name="share-2" size={22} color="#45505E" />
+                  </ViewIconsButton>
 
-            {userInfo.extra 
-               ? (
-                  <ViewInfosItem>
-                     <ViewInfosItemTitle>Informação extra</ViewInfosItemTitle>
-                     <ViewInfosItemBody>{userInfo.extra}</ViewInfosItemBody>
-                  </ViewInfosItem>
-               )
-               : ""
-            }
-         </ViewInfos>
+                  <ViewIconsGroupText>Compartilhar</ViewIconsGroupText>
+               </ViewIconsGroup>
+
+               <ViewIconsGroup>
+                  <ViewIconsButton onPress={removeContact}>
+                     <IconDelete name="trash-2" size={22} color="#45505E" />
+                  </ViewIconsButton>
+
+                  <ViewIconsGroupText>Excluir</ViewIconsGroupText>
+               </ViewIconsGroup>
+            </ViewIcons>
+
+            <ViewInfos>
+               <ViewInfosItem borderB={true}>
+                  <ViewInfosItemTitle>Telefone</ViewInfosItemTitle>
+                  <ViewInfosItemBody>{userInfo.numero}</ViewInfosItemBody>
+               </ViewInfosItem>
+
+               <ViewInfosItem borderB={true}>
+                  <ViewInfosItemTitle>Email</ViewInfosItemTitle>
+                  <ViewInfosItemBody>{userInfo.email}</ViewInfosItemBody>
+               </ViewInfosItem>
+
+               {userInfo.extra 
+                  ? (
+                     <ViewInfosItem>
+                        <ViewInfosItemTitle>Informação extra</ViewInfosItemTitle>
+                        <ViewInfosItemBody>{userInfo.extra}</ViewInfosItemBody>
+                     </ViewInfosItem>
+                  )
+                  : ""
+               }
+            </ViewInfos>
+         </ScrollView>
 
          <EditContact 
             visible={visible}
