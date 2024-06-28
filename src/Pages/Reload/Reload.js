@@ -1,31 +1,17 @@
-import { View, StyleSheet, ActivityIndicator } from "react-native";
+import { ActivityIndicator, StatusBar } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
-import React from "react";
+import { ViewContainer, ViewIcon } from "./ReloadStyle.js"
 
 export default function Reload() {
    return (
-      <View style={style.container}>
-         <View style={style.icon}>
-            <Icon name="phone" size={60} color="#fff" />
-         </View>
+      <ViewContainer>
+         <ViewIcon>
+            <Icon name="phone" size={90} color="#fff" />
+         </ViewIcon>
          
-         <ActivityIndicator size={32} color="#E6EBEF" />
-      </View>
+         <ActivityIndicator size={32} color="#D9D9D9" />
+
+         <StatusBar hidden={true} />
+      </ViewContainer>
    );
 }
-
-const style = StyleSheet.create({
-   container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: 42,
-      backgroundColor: '#1e272e'
-   },
-   icon: {
-      padding: 24,
-      borderWidth: 2,
-      borderColor: '#28343E',
-      borderRadius: 999
-   }
-});
