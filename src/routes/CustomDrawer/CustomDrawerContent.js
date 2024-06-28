@@ -1,7 +1,10 @@
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/Feather";
-
+import { 
+   ViewDataUser, ViewDataUserView, ViewDataUserImg, ViewDataUserInfo, ViewDataUserInfoName, ViewDataUserInfoEmail, 
+   ViewNav, ViewNavLink, ViewNavLinkText, ViewNavLinkTextExit 
+} from "./CustomDrawerStyle.js"
 import { useNavigationState } from '@react-navigation/native';
 import {DrawerContentScrollView} from '@react-navigation/drawer';
 
@@ -20,36 +23,37 @@ const CustomDrawerContent = ({ navigation, user, logOut }) => {
 
    return (
      <DrawerContentScrollView {...navigation} style={style.container}>
-         <View style={style.userData}>
-            <View style={style.userDataPhoto}>
+         <ViewDataUser>
+            <ViewDataUserView>
                {user?.photoURL ? (
-                  <Image source={{uri: user.photoURL}} resizeMode="cover" style={style.userDataPhotoImg} /> 
+                  <ViewDataUserImg source={{uri: user.photoURL}} resizeMode="cover" /> 
                ) : (
-                  <Image source={noPhoto} resizeMode="cover" style={style.userDataPhotoImg} /> 
+                  <ViewDataUserImg source={noPhoto} resizeMode="cover" /> 
                )}
-            </View>
-            <View style={style.userDataInfo}>
-               <Text style={style.userDataInfoName}>{user.displayName}</Text>
-               <Text style={style.userDataInfoEmail}>{user.email}</Text>
-            </View>
-         </View>
+            </ViewDataUserView>
 
-         <View style={style.userNavLink}>
-            <TouchableOpacity style={[style.userNavLinkButton, activeRoute.name === 'Contato' && style.userNavLinkButtonActive]} onPress={() => navigation.navigate('Root')}>
+            <ViewDataUserInfo>
+               <ViewDataUserInfoName style={style.userDataInfoName}>{user.displayName}</ViewDataUserInfoName>
+               <ViewDataUserInfoEmail style={style.userDataInfoEmail}>{user.email}</ViewDataUserInfoEmail>
+            </ViewDataUserInfo>
+         </ViewDataUser>
+
+         <ViewNav>
+            <ViewNavLink active={activeRoute.name === 'Contato'} onPress={() => navigation.navigate('Root')}>
                <Icon name="home" size={24} color={activeRoute.name === 'Contato' ? '#fff' : '#000'}  />
-               <Text style={[style.userNavLinkButtonText, activeRoute.name === 'Contato' && style.userNavLinkButtonTextActive]}>Tela Principal</Text>
-            </TouchableOpacity>
+               <ViewNavLinkText active={activeRoute.name === 'Contato'}>Tela Principal</ViewNavLinkText>
+            </ViewNavLink>
 
-            <TouchableOpacity style={style.userNavLinkButton} onPress={() => navigation.navigate('EditarPerfil')}>
-               <Icon name="settings" size={24} color="black"  />
-               <Text style={style.userNavLinkButtonText}>Editar Perfil</Text>
-            </TouchableOpacity>
+            <ViewNavLink onPress={() => navigation.navigate('EditarPerfil')}>
+               <Icon name="settings" size={24} color="#1A1E23"  />
+               <ViewNavLinkText>Editar Perfil</ViewNavLinkText>
+            </ViewNavLink>
 
-            <TouchableOpacity style={style.userNavLinkButton} onPress={() => logOut()}>
-               <Icon name="log-out" size={22} color="red"  />
-               <Text style={[style.userNavLinkButtonText, style.userNavLinkButtonTextRed]}>Sair</Text>
-            </TouchableOpacity>
-         </View>
+            <ViewNavLink onPress={() => logOut()}>
+               <Icon name="log-out" size={24} color="#FF6348" />
+               <ViewNavLinkTextExit>Sair</ViewNavLinkTextExit>
+            </ViewNavLink>
+         </ViewNav>
      </DrawerContentScrollView>
    );
 };
@@ -57,60 +61,9 @@ const CustomDrawerContent = ({ navigation, user, logOut }) => {
 const style = StyleSheet.create({
    container: {
       flex: 1,
-      paddingVertical: 32,
-      paddingHorizontal: 16,
-   },
-   userData: {
-      marginBottom: 32,
-      gap: 12,
-      alignItems: 'center',
-   },
-   userDataPhoto: {
-      width: 160,
-      height: 160,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 999,
-      overflow: 'hidden',
-   },
-   userDataPhotoImg: {
-      width: '100%',
-      height: '100%',
-   },
-   userDataInfo: {
-      gap: 8
-   },
-   userDataInfoName: {
-      fontSize: 20,
-      fontWeight: "500",
-      textAlign: 'center'
-   },
-   userDataInfoEmail: {
-      fontSize: 16,
-      fontWeight: "400",
-      textAlign: 'center'
-   },
-   userNavLink: {
-      gap: 8,
-   },
-   userNavLinkButton: {
-      padding: 8,
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 12,
-      borderRadius: 6,
-   },
-   userNavLinkButtonActive: {
-      backgroundColor: 'gray',
-   },
-   userNavLinkButtonText: {
-      fontSize: 16,
-   },
-   userNavLinkButtonTextRed: {
-      color: 'red'
-   },
-   userNavLinkButtonTextActive: {
-      color: '#fff'
+      paddingVertical: 84,
+      paddingHorizontal: 24,
+      backgroundColor: '#FFFFFF',
    }
 })
 
