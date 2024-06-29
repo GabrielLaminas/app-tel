@@ -1,11 +1,14 @@
 import React from "react";
-import { View, TouchableOpacity, ScrollView, Keyboard, Alert, ActivityIndicator } from "react-native";
 import { 
-   MainView, MainTitle, ViewIcon, ContainerInput, TextLabel, 
-   Input, ButtonContaText, ButtonEntrar, ButtonEntrarText, ErrorText
+   TouchableOpacity, ScrollView, Keyboard, Alert, StatusBar 
+} from "react-native";
+import { 
+   MainView, ContainerInput, ViewConta, ViewContaText, ButtonContaText
 } from './LoginStyle.js';
 
-import Icon from "react-native-vector-icons/Feather";
+import Title from "../../Components/Title/Title.js";
+import Input from "../../Components/Input/Input.js";
+import BtnSuccess from "../../Components/Buttons/Buttons.js";
 
 import { auth } from "../../Firebase/firebase.js";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -18,7 +21,7 @@ function Login() {
    const [email, setEmail] = React.useState('');
    const [password, setPassWord] = React.useState('');
    const [feedback, setFeedback] = React.useState(null);
-   const [laoding, setLoading] = React.useState(false);
+   const [loading, setLoading] = React.useState(false);
 
    async function handleLogin(){
       try {
@@ -53,54 +56,52 @@ function Login() {
    }
 
    return (
-      <ScrollView showsVerticalScrollIndicator={false}>
-         <MainView>
-            <MainTitle>LISTA TELEFONICA</MainTitle>
-
-            <ViewIcon>
-               <Icon name="phone" size={60} color="#fff" />
-            </ViewIcon>
+      <MainView>
+         <ScrollView 
+            showsVerticalScrollIndicator={false} 
+            style={{paddingTop: 100, paddingBottom: 80, paddingHorizontal: 16}} 
+         >
+            <Title>LISTA TELEFONICA</Title>
 
             <ContainerInput>
-               <View>
-                  <TextLabel nativeID="formLabelEmail">Email</TextLabel>
-                  <Input 
-                     autoFocus={true}
-                     accessibilityLabel="input"
-                     accessibilityLabelledBy="formLabelEmail"
-                     keyboardType="email-address"
-                     value={email}
-                     onChangeText={(text) => setEmail(text.trim())}
-                  />
-                  {feedback?.email && <ErrorText>{feedback.email}</ErrorText>}
-               </View>
+               <Input 
+                  textLabel="Email"
+                  value={email}
+                  setInput={setEmail}
+                  errorMessage={feedback?.email}
+                  autoFocus={true}
+                  keyboardType="email-address"
+               />
 
-               <View>
-                  <TextLabel nativeID="formLabelSenha">Senha</TextLabel>
-                  <Input
-                     accessibilityLabel="input"
-                     accessibilityLabelledBy="formLabelSenha"
-                     secureTextEntry
-                     value={password}
-                     onChangeText={(text) => setPassWord(text.trim())}
-                  />
-                  {feedback?.password && <ErrorText>{feedback.password}</ErrorText>}
-               </View>
+               <Input 
+                  textLabel="Senha"
+                  value={password}
+                  setInput={setPassWord}
+                  errorMessage={feedback?.password}
+                  secureTextEntry
+               />
             </ContainerInput>
 
-            <TouchableOpacity onPress={() => navigate('Conta')}>
-               <ButtonContaText>Criar uma conta</ButtonContaText>
-            </TouchableOpacity>
+            <ViewConta>
+               <ViewContaText>Não possui uma conta?</ViewContaText>
 
-            <ButtonEntrar onPress={handleLogin} color={email && password} disabled={email && password ? false : true}>
-               {
-                  laoding 
-                  ? <ActivityIndicator size={27} color="#fff" />
-                  : <ButtonEntrarText>Entrar</ButtonEntrarText>
-               }
-            </ButtonEntrar>
-         </MainView>
-      </ScrollView>
+               <TouchableOpacity onPress={() => navigate('Conta')}>
+                  <ButtonContaText>Criar uma conta</ButtonContaText>
+               </TouchableOpacity>
+            </ViewConta>
+
+            <BtnSuccess
+               onPress={handleLogin}
+               status={loading}
+               color={email && password} 
+               disabled={email && password ? false : true}
+            >
+               Entrar
+            </BtnSuccess>
+         </ScrollView>
+
+         <StatusBar barStyle="dark-content" backgroundColor="#FFF" />
+      </MainView>
    );
 }
 export default Login;
