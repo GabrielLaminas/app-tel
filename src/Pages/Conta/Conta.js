@@ -85,7 +85,6 @@ function Conta() {
                   value={name}
                   setInput={setName}
                   errorMessage={feedback?.name}
-                  //autoFocus={true}
                />
 
                <Input 

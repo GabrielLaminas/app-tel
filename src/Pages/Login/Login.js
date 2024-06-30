@@ -1,6 +1,6 @@
 import React from "react";
 import { 
-   TouchableOpacity, ScrollView, Keyboard, Alert, StatusBar 
+   TouchableOpacity, ScrollView, Keyboard, Alert
 } from "react-native";
 import { 
    MainView, ContainerInput, ViewConta, ViewContaText, ButtonContaText
@@ -99,8 +99,6 @@ function Login() {
                Entrar
             </BtnSuccess>
          </ScrollView>
-
-         <StatusBar barStyle="dark-content" backgroundColor="#FFF" />
       </MainView>
    );
 }
