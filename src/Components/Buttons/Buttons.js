@@ -7,7 +7,7 @@ const BtnSuccess = ({children, status, color, ...props}) => {
    return (
       <ButtonSuccess
          color={color}
-         {...props}sadasd
+         {...props}
       >  
          {
             status

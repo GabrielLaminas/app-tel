@@ -6,7 +6,7 @@ export default function Reload() {
    return (
       <ViewContainer>
          <ViewIcon>
-            <Icon name="phone" size={90} color="#fff" />
+            <Icon name="phone" size={86} color="#fff" />
          </ViewIcon>
          
          <ActivityIndicator size={32} color="#D9D9D9" />
