@@ -46,8 +46,12 @@ export default function UserRoute() {
             name="EditarPerfil"
             component={EditarPerfil}
             options={{
-               headerTitle: 'Editar Perfil'
-            }}
+               headerTitle: '',
+               headerStyle: {
+                  backgroundColor: 'transparent'
+               },
+               headerTransparent: true
+            }} 
          />
 
          <Stack.Screen 

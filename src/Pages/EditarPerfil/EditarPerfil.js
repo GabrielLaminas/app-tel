@@ -1,7 +1,16 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, TouchableWithoutFeedback, Alert, ImageBackground, Modal } from "react-native";
+import {
+   View, Text, StyleSheet, TouchableWithoutFeedback, Alert, Modal 
+} from "react-native";
 import React from "react";
 import { updateProfile } from "firebase/auth";
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+
+import Title from "../../Components/Title/Title";
+import Input from "../../Components/Input/Input";
+import {
+   MainView, ViewCamera, ViewImageBackground, ButtonCamera, ButtonSave, ButtonSaveText
+} from "./EditarPerfilStyle.js"
+
 import Icon from "react-native-vector-icons/Feather";
 import { UserContext } from "../../context/userContext";
 import { ScrollView } from "react-native-gesture-handler";
@@ -74,29 +83,30 @@ export default function EditarPerfil() {
    }
 
    return (
-      <View style={style.container}>
-         <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={style.viewButtonCamera}>
-               <ImageBackground source={image ? {uri: image} : noPhoto} resizeMode="stretch" style={style.viewImageBackground}>
-                  <TouchableOpacity style={style.buttonCamera} onPress={() => setVisible(true)}>
+      <MainView>
+         <ScrollView 
+            showsVerticalScrollIndicator={false}
+            style={{paddingHorizontal: 16, paddingVertical: 80}}
+         >
+            <Title>Editar Perfil</Title>
+
+            <ViewCamera>
+               <ViewImageBackground source={image ? {uri: image} : noPhoto} resizeMode="stretch">
+                  <ButtonCamera onPress={() => setVisible(true)}>
                      <Icon name="camera" size={42} color="#FFF" />
-                  </TouchableOpacity>
-               </ImageBackground>
-            </View>
+                  </ButtonCamera>
+               </ViewImageBackground>
+            </ViewCamera>
 
-            <View style={style.viewInput}>
-               <Text style={style.viewInputText}>Nome *</Text>
-               <TextInput 
-                  style={style.viewInputInput}
-                  placeholder="Nome"
-                  value={name}
-                  onChangeText={(text) => setName(text)}
-               />
-            </View>
+            <Input 
+               textLabel="Nome"
+               value={name}
+               setInput={setName}
+            />
 
-            <TouchableOpacity onPress={() => updateUser()} style={style.buttonSave}>
-               <Text style={style.buttonSaveText}>Salvar</Text>
-            </TouchableOpacity>
+            <ButtonSave onPress={() => updateUser()}>
+               <ButtonSaveText>Editar</ButtonSaveText>
+            </ButtonSave>
 
             <ModalButtons visible={visible} setVisible={setVisible}>
                <View style={style.modalMain}>
@@ -130,36 +140,11 @@ export default function EditarPerfil() {
                </View>
             </ModalButtons>
          </ScrollView>
-      </View>
+      </MainView>
    );
 }
 
 const style = StyleSheet.create({
-   container: {
-      flex: 1,
-      paddingVertical: 32,
-      paddingHorizontal: 24,
-      position: 'relative'
-   },
-   viewButtonCamera: {
-      marginBottom: 32,
-      justifyContent: 'center',
-      alignItems: 'center',
-   },
-   viewImageBackground: {
-      width: 160,
-      height: 160,
-      borderRadius: 999,
-      overflow: 'hidden',
-   }, 
-   buttonCamera: {
-      width: 160,
-      height: 160,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 999,
-      overflow: 'hidden',
-   },
    modalMain: {
       width: '100%',
       padding: 24,
@@ -201,31 +186,6 @@ const style = StyleSheet.create({
    modalGroupColumnText: {
       color: '#000',
       fontSize: 16,
-   },
-   viewInput: {
-      marginBottom: 42,
-      gap: 8,
-   },
-   viewInputText: {
-      fontSize: 14
-   },
-   viewInputInput: {
-      padding: 10,
-      backgroundColor: '#ecf0f1',
-      fontSize: 16,
-      borderBottomWidth: 1,
-      borderBottomColor: '#000'
-   },
-   buttonSave: {
-      width: '30%',
-      paddingVertical: 12,
-      paddingHorizontal: 24,
-      backgroundColor: 'green'
-   },
-   buttonSaveText: {
-      color: 'white',
-      fontSize: 16,
-      textAlign: 'center'
    }
 });
 
