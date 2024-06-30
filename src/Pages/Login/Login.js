@@ -69,8 +69,8 @@ function Login() {
                   value={email}
                   setInput={setEmail}
                   errorMessage={feedback?.email}
-                  autoFocus={true}
                   keyboardType="email-address"
+                  autoFocus={true}
                />
 
                <Input 

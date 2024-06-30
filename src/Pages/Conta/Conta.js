@@ -1,12 +1,16 @@
 import React from "react";
-import { View, ScrollView, TouchableOpacity, ActivityIndicator, Alert, Keyboard } from "react-native";
 import { 
-   MainView, MainTitle, ContainerInput, 
-   TextLabel, Input, ButtonContaText, 
-   ButtonEntrar, ButtonEntrarText, ErrorText 
-} from "./ContaStyle.js"
-import { useNavigation } from "@react-navigation/native";
+   ScrollView, TouchableOpacity, Alert, Keyboard 
+} from "react-native";
+import { 
+   MainView, ContainerInput, ViewConta, ViewContaText, ButtonContaText
+} from "./ContaStyle.js";
 
+import Title from "../../Components/Title/Title.js";
+import Input from "../../Components/Input/Input.js";
+import BtnSuccess from "../../Components/Buttons/Buttons.js";
+
+import { useNavigation } from "@react-navigation/native";
 import { schemaConta } from "../../Validation/validation.js";
 
 import { auth, database } from "../../Firebase/firebase.js";
@@ -19,7 +23,7 @@ function Conta() {
    const [email, setEmail] = React.useState('');
    const [password, setPassWord] = React.useState('');
    const [feedback, setFeedback] = React.useState(null);
-   const [laoding, setLoading] = React.useState(false);
+   const [loading, setLoading] = React.useState(false);
 
    async function handleCreateCount(){
       try {
@@ -68,64 +72,57 @@ function Conta() {
    }
 
    return (
-      <ScrollView showsVerticalScrollIndicator={false}>
-         <MainView>
-            <MainTitle>CRIAR CONTA</MainTitle>
+      <MainView>
+         <ScrollView 
+            showsVerticalScrollIndicator={false}
+            style={{paddingVertical: 30, paddingHorizontal: 16}} 
+         >
+            <Title>CRIAR CONTA</Title>
 
             <ContainerInput>
-               <View>
-                  <TextLabel nativeID="formLabelNome">Nome</TextLabel>
-                  <Input
-                     autoFocus={true}
-                     accessibilityLabel="input"
-                     accessibilityLabelledBy="formLabelNome"
-                     value={name}
-                     onChangeText={(text) => setName(text.trim())} 
-                  />
-                  {feedback?.name && <ErrorText>{feedback.name}</ErrorText>}
-               </View>
+               <Input 
+                  textLabel="Nome"
+                  value={name}
+                  setInput={setName}
+                  errorMessage={feedback?.name}
+                  //autoFocus={true}
+               />
 
-               <View>
-                  <TextLabel nativeID="formLabelEmail">Email</TextLabel>
-                  <Input 
-                     accessibilityLabel="input"
-                     accessibilityLabelledBy="formLabelEmail" 
-                     keyboardType="email-address"
-                     value={email}
-                     onChangeText={(text) => setEmail(text.trim())} 
-                  />
-                  {feedback?.email && <ErrorText>{feedback.email}</ErrorText>}
-               </View>
+               <Input 
+                  textLabel="Email"
+                  value={email}
+                  setInput={setEmail}
+                  errorMessage={feedback?.email}
+                  keyboardType="email-address"
+               />
 
-               <View>
-                  <TextLabel nativeID="formLabelSenha">Senha</TextLabel>
-                  <Input
-                     accessibilityLabel="input"
-                     accessibilityLabelledBy="formLabelSenha"
-                     value={password}
-                     secureTextEntry
-                     onChangeText={(text) => setPassWord(text.trim())}   
-                  />
-                  {feedback?.password && <ErrorText>{feedback.password}</ErrorText>}
-               </View>
+               <Input 
+                  textLabel="Senha"
+                  value={password}
+                  setInput={setPassWord}
+                  errorMessage={feedback?.password}
+                  secureTextEntry
+               />
             </ContainerInput>
 
-            <TouchableOpacity onPress={() => navigate('Login')}>
-               <ButtonContaText>Entrar na minha conta</ButtonContaText>
-            </TouchableOpacity>
+            <ViewConta>
+               <ViewContaText>Já possui uma conta?</ViewContaText>
 
-            <ButtonEntrar 
-               color={name && email && password} 
+               <TouchableOpacity onPress={() => navigate('Login')}>
+                  <ButtonContaText>Fazer Login</ButtonContaText>
+               </TouchableOpacity>
+            </ViewConta>
+
+            <BtnSuccess
+               color={name && email && password}
                disabled={name && email && password ? false : true}
+               status={loading}
                onPress={handleCreateCount}
             >
-               { laoding 
-                  ? <ActivityIndicator size={27} color="#fff" />
-                  : <ButtonEntrarText>CRIAR</ButtonEntrarText>
-               }
-            </ButtonEntrar>
-         </MainView>
-      </ScrollView>
+               CRIAR
+            </BtnSuccess>
+         </ScrollView>
+      </MainView>
    );
 }
 
