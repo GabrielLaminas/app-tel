@@ -1,10 +1,9 @@
-import { 
-   View, Modal, ScrollView, Keyboard,
-   ActivityIndicator
-} from "react-native";
-import {
-   ModalView, MainTitle, ContainerInput, TextLabel, Input, ErrorText, ContainerButtons, ButtonSave, ButtonCancel, ButtonText
-} from "./ModalStyle.js"
+import { Modal, ScrollView, Keyboard } from "react-native";
+import { ModalView, ContainerInput, ContainerButtons } from "./ModalStyle.js"
+
+import Title from "../Title/Title.js";
+import Input from "../Input/Input.js";
+import { BtnSuccess, BtnCancel } from "../Buttons/Buttons.js";
 
 import {useEffect, useState, useContext} from "react";
 import { schemaModal } from '../../Validation/validation.js';
@@ -69,70 +68,52 @@ function EditContact({visible, setVisible, uid, userName, userPhone, userEmail, 
       >
          <ModalView>
             <ScrollView showsVerticalScrollIndicator={false}>
-               <MainTitle>Editar Contato</MainTitle>
+               <Title>Editar Contato</Title>
 
                <ContainerInput>
-                  <View>
-                     <TextLabel nativeID="formLabelName">Nome *</TextLabel>
-                     <Input 
-                        accessibilityLabel="input"
-                        accessibilityLabelledBy="formLabelName"
-                        value={name}
-                        onChangeText={(text) => setName(text)}
-                     />
-                     {feedback?.name && <ErrorText>{feedback.name}</ErrorText>}
-                  </View>
-                  
-                  <View>
-                     <TextLabel nativeID="formLabelEmail">Email *</TextLabel>
-                     <Input
-                        accessibilityLabel="input"
-                        accessibilityLabelledBy="formLabelEmail"
-                        keyboardType="email-address"
-                        value={email}
-                        onChangeText={(text) => setEmail(text.trim())}
-                     />
-                     {feedback?.email && <ErrorText>{feedback.email}</ErrorText>}
-                  </View>
+                  <Input 
+                     textLabel="Nome *"
+                     value={name}
+                     setInput={setName}
+                     errorMessage={feedback?.name}
+                  />
 
-                  <View>
-                     <TextLabel nativeID="formLabelTelefone">Telefone *</TextLabel>
-                     <Input
-                        accessibilityLabel="input"
-                        accessibilityLabelledBy="formLabelTelefone"
-                        placeholder="(XX) XXXXX-XXXX ou XXXXXXXXXXX"
-                        value={phone}
-                        onChangeText={(text) => setPhone(text)}
-                     />
-                     {feedback?.phone && <ErrorText>{feedback.phone}</ErrorText>}
-                  </View>
+                  <Input 
+                     textLabel="Email *"
+                     value={email}
+                     setInput={setEmail}
+                     errorMessage={feedback?.email}
+                     keyboardType="email-address"
+                  />
 
-                  <View>
-                     <TextLabel nativeID="formLabelInformaçãoExtra">Informação Extra</TextLabel>
-                     <Input
-                        accessibilityLabel="input"
-                        accessibilityLabelledBy="formLabelInformaçãoExtra"
-                        value={extra}
-                        onChangeText={(text) => setExtra(text)}
-                     />
-                  </View>
+                  <Input 
+                     textLabel="Telefone *"
+                     value={phone}
+                     setInput={setPhone}
+                     errorMessage={feedback?.phone}
+                     keyboardType="phone-pad"
+                  />
+
+                  <Input 
+                     textLabel="Informação Extra"
+                     value={extra}
+                     setInput={setExtra}
+                  />
                </ContainerInput>
 
                <ContainerButtons>
-                  <ButtonSave 
+                  <BtnSuccess
                      onPress={editContact}
+                     status={loading}
                      color={name && email && phone} 
                      disabled={name && email && phone ? false : true} 
                   >
-                     {loading 
-                        ? <ActivityIndicator size={27} color="#fff" />
-                        : <ButtonText>EDIT</ButtonText>
-                     }
-                  </ButtonSave>
+                     Editar
+                  </BtnSuccess>
 
-                  <ButtonCancel onPress={() => setVisible(false)}>
-                     <ButtonText>CANCELAR</ButtonText>
-                  </ButtonCancel>
+                  <BtnCancel onPress={() => setVisible(false)}>
+                     Cancelar
+                  </BtnCancel>
                </ContainerButtons>
             </ScrollView>
          </ModalView>
