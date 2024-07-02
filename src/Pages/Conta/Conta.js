@@ -8,7 +8,7 @@ import {
 
 import Title from "../../Components/Title/Title.js";
 import Input from "../../Components/Input/Input.js";
-import BtnSuccess from "../../Components/Buttons/Buttons.js";
+import { BtnSuccess } from "../../Components/Buttons/Buttons.js";
 
 import { useNavigation } from "@react-navigation/native";
 import { schemaConta } from "../../Validation/validation.js";
@@ -81,14 +81,14 @@ function Conta() {
 
             <ContainerInput>
                <Input 
-                  textLabel="Nome"
+                  textLabel="Nome *"
                   value={name}
                   setInput={setName}
                   errorMessage={feedback?.name}
                />
 
                <Input 
-                  textLabel="Email"
+                  textLabel="Email *"
                   value={email}
                   setInput={setEmail}
                   errorMessage={feedback?.email}
@@ -96,7 +96,7 @@ function Conta() {
                />
 
                <Input 
-                  textLabel="Senha"
+                  textLabel="Senha *"
                   value={password}
                   setInput={setPassWord}
                   errorMessage={feedback?.password}

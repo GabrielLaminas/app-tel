@@ -1,5 +1,5 @@
 import { 
-   ButtonSuccess, ButtonSuccessText 
+   ButtonSuccess, ButtonSuccessText, ButtonCancel, ButtonCancelText 
 } from "./ButtonsStyle.js";
 import { ActivityIndicator } from "react-native";
 
@@ -18,4 +18,14 @@ const BtnSuccess = ({children, status, color, ...props}) => {
    );
 };
 
-export default BtnSuccess;
+const BtnCancel = ({children, ...props}) => {
+   return (
+      <ButtonCancel
+         {...props}
+      >
+         <ButtonCancelText>{children}</ButtonCancelText>
+      </ButtonCancel>
+   )
+}
+
+export { BtnSuccess, BtnCancel};

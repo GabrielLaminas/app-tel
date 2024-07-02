@@ -8,7 +8,7 @@ import {
 
 import Title from "../../Components/Title/Title.js";
 import Input from "../../Components/Input/Input.js";
-import BtnSuccess from "../../Components/Buttons/Buttons.js";
+import { BtnSuccess } from "../../Components/Buttons/Buttons.js";
 
 import { auth } from "../../Firebase/firebase.js";
 import { signInWithEmailAndPassword } from "firebase/auth";
