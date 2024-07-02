@@ -92,6 +92,7 @@ const CreateContact = ({visible, setVisible}) => {
                      value={phone}
                      setInput={setPhone}
                      errorMessage={feedback?.phone}
+                     keyboardType="phone-pad" 
                   />        
 
                   <Input 
