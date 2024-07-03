@@ -1,6 +1,4 @@
-import {
-   View, Text, StyleSheet, TouchableWithoutFeedback, Alert, Modal 
-} from "react-native";
+import { TouchableWithoutFeedback, Alert, Modal } from "react-native";
 import React from "react";
 import { updateProfile } from "firebase/auth";
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -8,7 +6,9 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Title from "../../Components/Title/Title";
 import Input from "../../Components/Input/Input";
 import {
-   MainView, ViewCamera, ViewImageBackground, ButtonCamera, ButtonSave, ButtonSaveText
+   MainView, ViewCamera, ViewImageBackground, ButtonCamera, ButtonSave, ButtonSaveText,
+   ModalButton, ModalMain, ModalHeader, ModalHeaderTitle, ModalGroupButton, ModalGroupColumn, 
+   ModalGroupColumnIcon, ModalGroupColumnText
 } from "./EditarPerfilStyle.js"
 
 import Icon from "react-native-vector-icons/Feather";
@@ -82,6 +82,19 @@ export default function EditarPerfil() {
       }
    }
 
+   async function removePhoto(){
+      try {
+         if(image){
+            await updateProfile(credential, { photoURL: '' });
+            setVisible(false);
+            setImage('');
+            Alert.alert('Imagem removida');
+         } 
+      } catch (error) {
+         console.log(error.code, error.message)
+      }
+   }
+
    return (
       <MainView>
          <ScrollView 
@@ -109,85 +122,52 @@ export default function EditarPerfil() {
             </ButtonSave>
 
             <ModalButtons visible={visible} setVisible={setVisible}>
-               <View style={style.modalMain}>
-                  <View style={style.modalHeader}>
-                     <Text style={style.modalHeaderTitle}>Foto de Perfil</Text>
+               <ModalMain>
+                  <ModalHeader>
+                     <ModalHeaderTitle>Foto de perfil</ModalHeaderTitle>
 
                      <TouchableWithoutFeedback onPress={() => setVisible(false)}>
-                        <Icon name="x" size={22} color="#000" />
+                        <Icon name="x" size={24} color="#1A1E23" />
                      </TouchableWithoutFeedback>
-                  </View>
+                  </ModalHeader>
 
-                  <View style={style.modalGroupButton}>
+                  <ModalGroupButton>
                      <TouchableWithoutFeedback onPress={() => launchCameraPhone()}>
-                        <View style={style.modalGroupColumn}>
-                           <View style={style.modalGroupColumnIcon}>
-                              <Icon name="camera" size={20} color="#000" />
-                           </View>
-                           <Text style={style.modalGroupColumnText}>Câmera</Text>
-                        </View>
+                        <ModalGroupColumn>
+                           <ModalGroupColumnIcon>
+                              <Icon name="camera" size={20} color="#2E7555" />
+                           </ModalGroupColumnIcon>
+
+                           <ModalGroupColumnText>Câmera</ModalGroupColumnText>
+                        </ModalGroupColumn>
                      </TouchableWithoutFeedback>
 
                      <TouchableWithoutFeedback onPress={() => launchGaleriaPhone()}>
-                        <View style={style.modalGroupColumn}>
-                           <View style={style.modalGroupColumnIcon}>
-                              <Icon name="image" size={20} color="#000" />
-                           </View>
-                           <Text style={style.modalGroupColumnText}>Galeria</Text>
-                        </View>
+                        <ModalGroupColumn>
+                           <ModalGroupColumnIcon>
+                              <Icon name="image" size={20} color="#2E7555" />
+                           </ModalGroupColumnIcon>
+
+                           <ModalGroupColumnText>Galeria</ModalGroupColumnText>
+                        </ModalGroupColumn>
                      </TouchableWithoutFeedback>
-                  </View>
-               </View>
+
+                     <TouchableWithoutFeedback onPress={() => removePhoto()} disabled={image ? false : true}>
+                        <ModalGroupColumn>
+                           <ModalGroupColumnIcon>
+                              <Icon name="camera-off" size={20} color="#2E7555" />
+                           </ModalGroupColumnIcon>
+
+                           <ModalGroupColumnText>Remover</ModalGroupColumnText>
+                        </ModalGroupColumn>
+                     </TouchableWithoutFeedback>
+                  </ModalGroupButton>
+               </ModalMain>
             </ModalButtons>
          </ScrollView>
       </MainView>
    );
 }
-
-const style = StyleSheet.create({
-   modalMain: {
-      width: '100%',
-      padding: 24,
-      position: 'absolute',
-      bottom: 0,
-      backgroundColor: '#f1f2f6',
-      borderTopStartRadius: 24,
-      borderTopEndRadius: 24,
-   },
-   modalHeader: {
-      marginBottom: 24,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      gap: 16,
-   },
-   modalHeaderTitle: {
-      color: '#000',
-      fontSize: 18,
-      fontWeight: '500'
-   },
-   modalGroupButton: {
-      flexDirection: 'row',
-      gap: 32,
-   },
-   modalGroupColumn: {
-      gap: 6,
-      alignItems: 'center'
-   },
-   modalGroupColumnIcon: {
-      width: 48,
-      height: 48,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderColor: '#000',
-      borderWidth: 1,
-      borderRadius: 999,
-   },
-   modalGroupColumnText: {
-      color: '#000',
-      fontSize: 16,
-   }
-});
 
 function ModalButtons({children, visible, setVisible}){
    return (
@@ -197,16 +177,7 @@ function ModalButtons({children, visible, setVisible}){
          visible={visible}
          onRequestClose={() => setVisible(!visible)}
       >
-         <View style={styleModal.container}>
-            {children}
-         </View>
+         <ModalButton>{children}</ModalButton>
       </Modal>
    )
 }
-
-const styleModal = StyleSheet.create({
-   container: {
-      flex: 1,
-      backgroundColor: 'rgba(0, 0, 0, .15)'
-   }
-});
