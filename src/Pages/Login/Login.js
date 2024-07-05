@@ -1,7 +1,5 @@
 import React from "react";
-import { 
-   TouchableOpacity, ScrollView, Keyboard, Alert
-} from "react-native";
+import { TouchableOpacity, ScrollView, Keyboard, Alert } from "react-native";
 import { 
    MainView, ContainerInput, ViewConta, ViewContaText, ButtonContaText
 } from './LoginStyle.js';

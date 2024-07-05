@@ -1,31 +1,29 @@
 import { TouchableWithoutFeedback, Alert, Modal } from "react-native";
-import React from "react";
+import {useState, useContext, useEffect }from "react";
 import { updateProfile } from "firebase/auth";
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 import Title from "../../Components/Title/Title";
 import Input from "../../Components/Input/Input";
 import {
-   MainView, ViewCamera, ViewImageBackground, ButtonCamera, ButtonSave, ButtonSaveText,
-   ModalButton, ModalMain, ModalHeader, ModalHeaderTitle, ModalGroupButton, ModalGroupColumn, 
-   ModalGroupColumnIcon, ModalGroupColumnText
+   MainView, ViewContainer, ViewContainerContent, ViewCamera, ViewImageBackground, ButtonCamera, ButtonSave, ButtonSaveText,
+   ModalButton, ModalMain, ModalHeader, ModalHeaderTitle, ModalGroupButtons, ModalGroupColumn, ModalGroupColumnButton, ModalGroupColumnText
 } from "./EditarPerfilStyle.js"
 
 import Icon from "react-native-vector-icons/Feather";
 import { UserContext } from "../../context/userContext";
-import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { schemaPerfil } from "../../Validation/validation";
 
 export default function EditarPerfil() {
    const noPhoto = require('../../Assets/Images/no-user.png');
-   const [image, setImage] = React.useState('');
-   const [name, setName] = React.useState('');
-   const [visible, setVisible] = React.useState(false);
-   const { credential } = React.useContext(UserContext); 
+   const [image, setImage] = useState('');
+   const [name, setName] = useState('');
+   const [visible, setVisible] = useState(false);
+   const { credential } = useContext(UserContext); 
    const { goBack } = useNavigation();
    
-   React.useEffect(() => {
+   useEffect(() => {
       if(credential){
          setImage(credential.photoURL);
          setName(credential.displayName);
@@ -97,74 +95,75 @@ export default function EditarPerfil() {
 
    return (
       <MainView>
-         <ScrollView 
-            showsVerticalScrollIndicator={false}
-            style={{paddingHorizontal: 16, paddingVertical: 80}}
-         >
-            <Title>Editar Perfil</Title>
+         <ViewContainer>
+            <ViewContainerContent>
+               <Title>Editar Perfil</Title>
 
-            <ViewCamera>
-               <ViewImageBackground source={image ? {uri: image} : noPhoto} resizeMode="stretch">
-                  <ButtonCamera onPress={() => setVisible(true)}>
-                     <Icon name="camera" size={42} color="#FFF" />
-                  </ButtonCamera>
-               </ViewImageBackground>
-            </ViewCamera>
+               <ViewCamera>
+                  <ViewImageBackground source={image ? {uri: image} : noPhoto} resizeMode="stretch">
+                     <ButtonCamera onPress={() => setVisible(true)}>
+                        <Icon name="camera" size={42} color="#FFF" />
+                     </ButtonCamera>
+                  </ViewImageBackground>
+               </ViewCamera>
 
-            <Input 
-               textLabel="Nome"
-               value={name}
-               setInput={setName}
-            />
+               <Input 
+                  textLabel="Nome"
+                  value={name}
+                  setInput={setName}
+               />
+            </ViewContainerContent>
 
             <ButtonSave onPress={() => updateUser()}>
                <ButtonSaveText>Editar</ButtonSaveText>
             </ButtonSave>
+         </ViewContainer>
 
-            <ModalButtons visible={visible} setVisible={setVisible}>
-               <ModalMain>
-                  <ModalHeader>
-                     <ModalHeaderTitle>Foto de perfil</ModalHeaderTitle>
+         <ModalButtons visible={visible} setVisible={setVisible}>
+            <ModalMain>
+               <ModalHeader>
+                  <ModalHeaderTitle>Foto de perfil</ModalHeaderTitle>
 
-                     <TouchableWithoutFeedback onPress={() => setVisible(false)}>
-                        <Icon name="x" size={24} color="#1A1E23" />
-                     </TouchableWithoutFeedback>
-                  </ModalHeader>
+                  <TouchableWithoutFeedback onPress={() => setVisible(false)}>
+                     <Icon name="x" size={24} color="#1A1E23" />
+                  </TouchableWithoutFeedback>
+               </ModalHeader>
 
-                  <ModalGroupButton>
-                     <TouchableWithoutFeedback onPress={() => launchCameraPhone()}>
-                        <ModalGroupColumn>
-                           <ModalGroupColumnIcon>
-                              <Icon name="camera" size={20} color="#2E7555" />
-                           </ModalGroupColumnIcon>
+               <ModalGroupButtons> 
+                  <ModalGroupColumn>
+                     <ModalGroupColumnButton onPress={() => launchCameraPhone()}>
+                        <Icon name="camera" size={20} color="#2E7555" />
+                     </ModalGroupColumnButton>
 
-                           <ModalGroupColumnText>Câmera</ModalGroupColumnText>
-                        </ModalGroupColumn>
-                     </TouchableWithoutFeedback>
+                     <ModalGroupColumnText>Câmera</ModalGroupColumnText>
+                  </ModalGroupColumn>
 
-                     <TouchableWithoutFeedback onPress={() => launchGaleriaPhone()}>
-                        <ModalGroupColumn>
-                           <ModalGroupColumnIcon>
-                              <Icon name="image" size={20} color="#2E7555" />
-                           </ModalGroupColumnIcon>
+                  <ModalGroupColumn>
+                     <ModalGroupColumnButton onPress={() => launchGaleriaPhone()}> 
+                        <Icon name="image" size={20} color="#2E7555" />
+                     </ModalGroupColumnButton>
 
-                           <ModalGroupColumnText>Galeria</ModalGroupColumnText>
-                        </ModalGroupColumn>
-                     </TouchableWithoutFeedback>
+                     <ModalGroupColumnText>Galeria</ModalGroupColumnText>
+                  </ModalGroupColumn>
 
-                     <TouchableWithoutFeedback onPress={() => removePhoto()} disabled={image ? false : true}>
-                        <ModalGroupColumn>
-                           <ModalGroupColumnIcon>
-                              <Icon name="camera-off" size={20} color="#2E7555" />
-                           </ModalGroupColumnIcon>
+                  <ModalGroupColumn>
+                     <ModalGroupColumnButton 
+                        onPress={() => removePhoto()} 
+                        disabled={image ? false : true}
+                     >
+                        <Icon 
+                           name="camera-off" size={20} 
+                           color={`${image ? '#2E7555' : '#B8B8B8'}`} 
+                        />
+                     </ModalGroupColumnButton>
 
-                           <ModalGroupColumnText>Remover</ModalGroupColumnText>
-                        </ModalGroupColumn>
-                     </TouchableWithoutFeedback>
-                  </ModalGroupButton>
-               </ModalMain>
-            </ModalButtons>
-         </ScrollView>
+                     <ModalGroupColumnText color={image ? false : true}>
+                        Remover
+                     </ModalGroupColumnText>
+                  </ModalGroupColumn>
+               </ModalGroupButtons>
+            </ModalMain>
+         </ModalButtons>
       </MainView>
    );
 }

@@ -5,12 +5,25 @@ const MainView = styled.View`
    background-color: #fff;
    position: relative;
 `
+
+const ViewContainer = styled.View`
+   padding: 76px 16px 42px 16px;
+   flex: 1;
+   justify-content: space-between;
+   gap: 32px;
+`
+
+const ViewContainerContent = styled.View`
+   flex: 1;
+`
+
 const ViewCamera = styled.View`
    margin-top: 36px;
    margin-bottom: 40px;
    justify-content: center;
    align-items: center;
 `
+
 const ViewImageBackground = styled.ImageBackground`
    width: 160px;
    height: 160px;
@@ -64,13 +77,14 @@ const ModalHeader = styled.View`
    align-items: center;
    gap: 16px;
 `
+
 const ModalHeaderTitle = styled.Text`
    color: #1A1E23;
    font-size: 20px;
    font-weight: 500;
 `
 
-const ModalGroupButton = styled.View`
+const ModalGroupButtons = styled.View`
    flex-direction: row;
    gap: 28px;
 `
@@ -80,7 +94,7 @@ const ModalGroupColumn = styled.View`
    align-items: center;
 `
 
-const ModalGroupColumnIcon = styled.View`
+const ModalGroupColumnButton = styled.TouchableOpacity`
    width: 52px;
    height: 52px;
    justify-content: center;
@@ -91,13 +105,13 @@ const ModalGroupColumnIcon = styled.View`
 `
 
 const ModalGroupColumnText = styled.Text`
-   color: #185A3D;
+   color: ${({color}) => color ? '#B8B8B8' : '#185A3D' };
    font-size: 14px;
    font-weight: 400;
 `
 
 export {
-   MainView, ViewCamera, ViewImageBackground, ButtonCamera, ButtonSave, ButtonSaveText,
-   ModalButton, ModalMain, ModalHeader, ModalHeaderTitle, ModalGroupButton, ModalGroupColumn, 
-   ModalGroupColumnIcon, ModalGroupColumnText
+   MainView, ViewContainer, ViewContainerContent, ViewCamera, ViewImageBackground, ButtonCamera, ButtonSave, ButtonSaveText,
+   ModalButton, ModalMain, ModalHeader, ModalHeaderTitle, ModalGroupButtons, ModalGroupColumn, 
+   ModalGroupColumnButton, ModalGroupColumnText
 }
