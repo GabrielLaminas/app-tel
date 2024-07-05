@@ -1,7 +1,5 @@
 import React from "react";
-import { 
-   ScrollView, TouchableOpacity, Alert, Keyboard 
-} from "react-native";
+import { ScrollView, TouchableOpacity, Alert, Keyboard } from "react-native";
 import { 
    MainView, ContainerInput, ViewConta, ViewContaText, ButtonContaText
 } from "./ContaStyle.js";
