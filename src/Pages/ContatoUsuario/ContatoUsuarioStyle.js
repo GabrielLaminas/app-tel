@@ -70,8 +70,8 @@ const ViewInfos = styled.View`
 const ViewInfosItem = styled.View`
    padding-bottom: 20px;
    gap: 10px;
-   border-bottom-color: ${props => props.borderB ? 'rgba(217, 217, 217, 0.4)' : 'auto'};
-   border-bottom-width: 1px;
+   border-bottom-color: ${({borderB}) => borderB ? 'rgba(217, 217, 217, 0.4)' : 'auto'};
+   border-bottom-width: ${({borderB}) => borderB ? '1px' : '0'};;
 `;
 
 const ViewInfosItemTitle = styled.Text`
