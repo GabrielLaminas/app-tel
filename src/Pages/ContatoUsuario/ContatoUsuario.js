@@ -1,10 +1,9 @@
 import { useState, useEffect, useContext } from "react";
-import { Alert, ScrollView } from "react-native";
+import { Alert, ScrollView, Share } from "react-native";
 import { 
    MainView, ViewName, ViewNameCircle, ViewNameCircleLetter, ViewFullName,  ViewIcons, ViewIconsButton, ViewIconsGroup, ViewIconsGroupText,  ViewInfos, ViewInfosItem, ViewInfosItemTitle, ViewInfosItemBody
 } from "./ContatoUsuarioStyle.js"
-import IconEdit from "react-native-vector-icons/Feather.js"; 
-import IconDelete from "react-native-vector-icons/Feather.js"; 
+import Icon from "react-native-vector-icons/Feather.js"; 
 
 import { database } from "../../Firebase/firebase.js";
 import { ref, onValue, remove } from "firebase/database";
@@ -65,6 +64,16 @@ function ContatoUsuario() {
       }
    }
 
+   async function shareContact(){
+      const title = `Compartilhar Contato`;
+      const message = `Nome: ${userInfo.nome} | Numero: ${userInfo.numero}`
+      try {
+         await Share.share({message: message, title: title}, {dialogTitle: title});
+      } catch (error) {
+         console.log(error.code, error.message)
+      }
+   }
+
    return (
       <MainView>
          <ScrollView showsVerticalScrollIndicator={false}>
@@ -79,15 +88,15 @@ function ContatoUsuario() {
             <ViewIcons>
                <ViewIconsGroup>
                   <ViewIconsButton onPress={() => setVisible(true)}>
-                     <IconEdit name="edit-2" size={22} color="#45505E" />
+                     <Icon name="edit-2" size={22} color="#45505E" />
                   </ViewIconsButton>
 
                   <ViewIconsGroupText>Editar</ViewIconsGroupText>
                </ViewIconsGroup>
                
                <ViewIconsGroup>
-                  <ViewIconsButton>
-                     <IconDelete name="share-2" size={22} color="#45505E" />
+                  <ViewIconsButton onPress={() => shareContact()}>
+                     <Icon name="share-2" size={22} color="#45505E" />
                   </ViewIconsButton>
 
                   <ViewIconsGroupText>Compartilhar</ViewIconsGroupText>
@@ -95,7 +104,7 @@ function ContatoUsuario() {
 
                <ViewIconsGroup>
                   <ViewIconsButton onPress={removeContact}>
-                     <IconDelete name="trash-2" size={22} color="#45505E" />
+                     <Icon name="trash-2" size={22} color="#45505E" />
                   </ViewIconsButton>
 
                   <ViewIconsGroupText>Excluir</ViewIconsGroupText>
