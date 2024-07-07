@@ -1,21 +1,24 @@
 import { useState, useEffect, useContext } from "react";
-import { Alert, ScrollView, Share } from "react-native";
+import { ScrollView, Share } from "react-native";
 import { 
    MainView, ViewName, ViewNameCircle, ViewNameCircleLetter, ViewFullName,  ViewIcons, ViewIconsButton, ViewIconsGroup, ViewIconsGroupText,  ViewInfos, ViewInfosItem, ViewInfosItemTitle, ViewInfosItemBody
 } from "./ContatoUsuarioStyle.js"
 import Icon from "react-native-vector-icons/Feather.js"; 
 
 import { database } from "../../Firebase/firebase.js";
-import { ref, onValue, remove } from "firebase/database";
-import { useRoute, useNavigation } from "@react-navigation/native";
+import { ref, onValue } from "firebase/database";
+import { useRoute } from "@react-navigation/native";
 import EditContact from "../../Components/Modal/EditContact.js";
 import { UserContext } from "../../context/userContext.js";
+import DeleteContact from "../../Components/Modal/DeleteContact.js";
 
 function ContatoUsuario() {
    const { params } = useRoute();
-   const { navigate } = useNavigation();
    const [userInfo, setUserInfo] = useState({});
-   const [visible, setVisible] = useState(false);
+   const [visible, setVisible] = useState({
+      "editModal": false,
+      "deleteModal": false
+   });
    const { user } = useContext(UserContext);
 
    useEffect(() => {
@@ -37,32 +40,6 @@ function ContatoUsuario() {
       }
       getUserInfo()
    }, [params.id]);
-
-   async function removeContact(){
-      try {
-         const referencia = ref(database, `AppTelContato/${user}/${params?.id}`);
-         Alert.alert(
-            'Excluir Contato', 
-            `Tem certeza que deseja excluir ${userInfo.nome}?`,
-            [ 
-               {
-                  text: 'EXCLUIR',
-                  onPress: async () => {
-                     await remove(referencia);
-                     navigate('Root');
-                  },
-                  style: 'destructive'
-               }, 
-               {
-                  text: 'CANCELAR',
-                  style: 'cancel'
-               }
-            ]
-         )
-      } catch (error) {
-         console.log(error.message)
-      }
-   }
 
    async function shareContact(){
       const title = `Compartilhar Contato`;
@@ -87,7 +64,7 @@ function ContatoUsuario() {
 
             <ViewIcons>
                <ViewIconsGroup>
-                  <ViewIconsButton onPress={() => setVisible(true)}>
+                  <ViewIconsButton onPress={() => setVisible({...visible, "editModal": true })}>
                      <Icon name="edit-2" size={22} color="#45505E" />
                   </ViewIconsButton>
 
@@ -103,7 +80,7 @@ function ContatoUsuario() {
                </ViewIconsGroup>
 
                <ViewIconsGroup>
-                  <ViewIconsButton onPress={removeContact}>
+                  <ViewIconsButton onPress={() => setVisible({...visible, "deleteModal": true })}>
                      <Icon name="trash-2" size={22} color="#45505E" />
                   </ViewIconsButton>
 
@@ -142,6 +119,13 @@ function ContatoUsuario() {
             userPhone={userInfo.numero}
             userEmail={userInfo.email}
             userExtra={userInfo.extra}
+         />
+
+         <DeleteContact 
+            visible={visible}
+            setVisible={setVisible}
+            uid={params?.id}
+            userName={userInfo.nome}
          />
       </MainView>
    );
