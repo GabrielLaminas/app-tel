@@ -42,7 +42,7 @@ function EditContact({visible, setVisible, uid, userName, userPhone, userEmail, 
             });
          }
          setFeedback({});
-         setVisible(false);
+         setVisible({...visible, "editModal": false})
       } catch (error) {
          const errors = {};
          if(error.inner){
@@ -61,9 +61,9 @@ function EditContact({visible, setVisible, uid, userName, userPhone, userEmail, 
    return (
       <Modal
          animationType="slide"
-         visible={visible}
+         visible={visible.editModal}
          onRequestClose={() => {
-            setVisible(false);
+            setVisible({...visible, "editModal": false})
          }}
       >
          <ModalView>
@@ -111,7 +111,7 @@ function EditContact({visible, setVisible, uid, userName, userPhone, userEmail, 
                      Editar
                   </BtnSuccess>
 
-                  <BtnCancel onPress={() => setVisible(false)}>
+                  <BtnCancel onPress={() => setVisible({...visible, "editModal": false})}>
                      Cancelar
                   </BtnCancel>
                </ContainerButtons>
