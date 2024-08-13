@@ -14,7 +14,7 @@ const schemaConta = Yup.object().shape({
 const schemaModal = Yup.object().shape({
    name: Yup.string().required('O nome é obrigatório'),
    email: Yup.string().email('Formato de e-mail inválido').required('O e-mail é obrigatório'),
-   phone: Yup.string().matches(/^(\(\d{2}\)\s?)?\d{5}-?\d{4}$/, 'Número de telefone inválido').required('O telefone é obrigatório'),
+   phone: Yup.string().matches(/(?:\+?55\s?)?(?:\(?\d{2}\)?[-\s]?)?\d{4,5}[-\s]?\d{4}/g, 'Número de telefone inválido').required('O telefone é obrigatório'),
    extra: Yup.string().notRequired()
 });
 
