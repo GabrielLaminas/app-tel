@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { ScrollView, Share } from "react-native";
+import { ScrollView, Share, Linking, Alert, View } from "react-native";
 import { 
    MainView, ViewName, ViewNameCircle, ViewNameCircleLetter, ViewFullName,  ViewIcons, ViewIconsButton, ViewIconsGroup, ViewIconsGroupText,  ViewInfos, ViewInfosItem, ViewInfosItemTitle, ViewInfosItemBody
 } from "./ContatoUsuarioStyle.js"
@@ -51,6 +51,34 @@ function ContatoUsuario() {
       }
    }
 
+   async function makeCall(){
+      const regexcharacter = /\(?\)?\s?-?/g
+      const number = userInfo.numero.replace(regexcharacter, '');
+      const numberSupport = await Linking.canOpenURL(`tel:${number}`);
+      
+      if(numberSupport){
+         await Linking.openURL(`tel:${number}`);
+      } else {
+         Alert.alert(
+            'Erro ao fazer ligação', 
+            'Número de telefone está incorreto'
+         );
+      }
+   }
+
+   async function sendEmail(){
+      const emailSupport = await Linking.canOpenURL(`mailto:${userInfo.email}`);
+      
+      if(emailSupport){
+         await Linking.openURL(`mailto:${userInfo.email}`);
+      } else {
+         Alert.alert(
+            'Erro ao enviar e-mail', 
+            'Email está incorreto'
+         );
+      }
+   }
+
    return (
       <MainView>
          <ScrollView showsVerticalScrollIndicator={false}>
@@ -64,15 +92,31 @@ function ContatoUsuario() {
 
             <ViewIcons>
                <ViewIconsGroup>
+                  <ViewIconsButton onPress={makeCall}>
+                     <Icon name="phone-call" size={22} color="#45505E" />
+                  </ViewIconsButton>
+
+                  <ViewIconsGroupText>Ligar</ViewIconsGroupText>
+               </ViewIconsGroup>
+
+               <ViewIconsGroup>
+                  <ViewIconsButton onPress={sendEmail}>
+                     <Icon name="mail" size={22} color="#45505E" />
+                  </ViewIconsButton>
+
+                  <ViewIconsGroupText>Email</ViewIconsGroupText>
+               </ViewIconsGroup>
+
+               <ViewIconsGroup>
                   <ViewIconsButton onPress={() => setVisible({...visible, "editModal": true })}>
                      <Icon name="edit-2" size={22} color="#45505E" />
                   </ViewIconsButton>
 
                   <ViewIconsGroupText>Editar</ViewIconsGroupText>
                </ViewIconsGroup>
-               
+
                <ViewIconsGroup>
-                  <ViewIconsButton onPress={() => shareContact()}>
+                  <ViewIconsButton onPress={shareContact}>
                      <Icon name="share-2" size={22} color="#45505E" />
                   </ViewIconsButton>
 
