@@ -40,7 +40,8 @@ const ViewIcons = styled.View`
    display: flex;
    flex-direction: row;
    justify-content: center;
-   gap: 42px;
+   //gap: 42px;
+   gap: 26px;
 `;
 
 const ViewIconsGroup = styled.View`
