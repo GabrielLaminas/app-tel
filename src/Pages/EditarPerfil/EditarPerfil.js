@@ -14,6 +14,7 @@ import Icon from "react-native-vector-icons/Feather";
 import { UserContext } from "../../context/userContext";
 import { useNavigation } from "@react-navigation/native";
 import { schemaPerfil } from "../../Validation/validation";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function EditarPerfil() {
    const noPhoto = require('../../Assets/Images/no-user.png');
@@ -95,30 +96,32 @@ export default function EditarPerfil() {
 
    return (
       <MainView>
-         <ViewContainer>
-            <ViewContainerContent>
-               <Title>Editar Perfil</Title>
+         <ScrollView showsVerticalScrollIndicator={false}>
+            <ViewContainer>
+               <ViewContainerContent>
+                  <Title>Editar Perfil</Title>
 
-               <ViewCamera>
-                  <ViewImageBackground source={image ? {uri: image} : noPhoto} resizeMode="stretch">
-                     <ButtonCamera onPress={() => setVisible(true)}>
-                        <Icon name="camera" size={42} color="#FFF" />
-                     </ButtonCamera>
-                  </ViewImageBackground>
-               </ViewCamera>
+                  <ViewCamera>
+                     <ViewImageBackground source={image ? {uri: image} : noPhoto} resizeMode="stretch">
+                        <ButtonCamera onPress={() => setVisible(true)}>
+                           <Icon name="camera" size={42} color="#FFF" />
+                        </ButtonCamera>
+                     </ViewImageBackground>
+                  </ViewCamera>
 
-               <Input 
-                  textLabel="Nome"
-                  value={name}
-                  setInput={setName}
-               />
-            </ViewContainerContent>
+                  <Input 
+                     textLabel="Nome"
+                     value={name}
+                     setInput={setName}
+                  />
+               </ViewContainerContent>
 
-            <ButtonSave onPress={() => updateUser()}>
-               <ButtonSaveText>Editar</ButtonSaveText>
-            </ButtonSave>
-         </ViewContainer>
-
+               <ButtonSave onPress={() => updateUser()}>
+                  <ButtonSaveText>Editar</ButtonSaveText>
+               </ButtonSave>
+            </ViewContainer>
+         </ScrollView>
+         
          <ModalButtons visible={visible} setVisible={setVisible}>
             <ModalMain>
                <ModalHeader>
