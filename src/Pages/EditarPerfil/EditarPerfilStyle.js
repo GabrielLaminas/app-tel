@@ -7,10 +7,9 @@ const MainView = styled.View`
 `
 
 const ViewContainer = styled.View`
-   padding: 76px 16px 42px 16px;
+   padding: 56px 16px 42px 16px;
    flex: 1;
    justify-content: space-between;
-   gap: 32px;
 `
 
 const ViewContainerContent = styled.View`
