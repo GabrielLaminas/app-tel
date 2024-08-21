@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { ScrollView, Share, Linking, Alert, View } from "react-native";
+import { ScrollView, Share, Linking, Alert, View, TouchableOpacity, Text } from "react-native";
 import { 
    MainView, ViewName, ViewNameCircle, ViewNameCircleLetter, ViewFullName,  ViewIcons, ViewIconsButton, ViewIconsGroup, ViewIconsGroupText,  ViewInfos, ViewInfosItem, ViewInfosItemTitle, ViewInfosItemBody
 } from "./ContatoUsuarioStyle.js"
@@ -12,13 +12,14 @@ import EditContact from "../../Components/Modal/EditContact.js";
 import { UserContext } from "../../context/userContext.js";
 import DeleteContact from "../../Components/Modal/DeleteContact.js";
 
-function ContatoUsuario() {
+function ContatoUsuario({navigation}) {
    const { params } = useRoute();
    const [userInfo, setUserInfo] = useState({});
    const [visible, setVisible] = useState({
       "editModal": false,
       "deleteModal": false
    });
+   const [visibleMenu, setVisibleMenu] = useState(false);
    const { user } = useContext(UserContext);
 
    useEffect(() => {
@@ -41,9 +42,47 @@ function ContatoUsuario() {
       getUserInfo()
    }, [params.id]);
 
+   useEffect(() => {
+      navigation.setOptions({
+         headerRight: () => (
+            <View style={{marginRight: 20, position: 'relative'}}>
+               <View style={{flexDirection: 'row', gap: 16, alignItems: 'center'}}>
+                  <TouchableOpacity onPress={() => {
+                     setVisibleMenu(false)
+                     setVisible({...visible, "editModal": true });
+                  }}>
+                     <Icon name="edit-2" size={22} color="#45505E" />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity onPress={() => setVisibleMenu((prev) => !prev)} style={{paddingVertical: 6}}>
+                     <Icon name="more-vertical" size={22} color="#000" />
+                  </TouchableOpacity>
+               </View>
+
+               <View style={!visibleMenu ? {display: 'none'} : {
+                  position: 'absolute', top: '110%', right: -8, zIndex: 100, display: 'flex',
+                  paddingVertical: 10, paddingHorizontal: 20, gap: 14, borderRadius: 4, backgroundColor: '#FAFAFA', elevation: 2,
+               }}>
+                  <TouchableOpacity onPress={() => {
+                     setVisibleMenu(false)
+                     setVisible({...visible, "deleteModal": true })
+                  }}>
+                     <Text style={{textAlign: 'right', color: '#1A1E23'}}>Excluir</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity onPress={shareContact}>
+                     <Text style={{textAlign: 'right', color: '#1A1E23'}}>Compartilhar</Text>
+                  </TouchableOpacity>
+               </View>
+            </View>
+         )
+      });
+   }, [navigation, visibleMenu]);
+
    async function shareContact(){
       const title = `Compartilhar Contato`;
       const message = `Nome: ${userInfo.nome} | Numero: ${userInfo.numero}`
+      setVisibleMenu(false)
       try {
          await Share.share({message: message, title: title}, {dialogTitle: title});
       } catch (error) {
@@ -79,6 +118,21 @@ function ContatoUsuario() {
       }
    }
 
+   async function sendMessage() {
+      const regexcharacter = /\(?\)?\s?-?/g
+      const number = userInfo.numero.replace(regexcharacter, '');
+      const numberSupport = await Linking.canOpenURL(`sms:${number}`);
+      
+      if(numberSupport){
+         await Linking.openURL(`sms:${number}`);
+      } else {
+         Alert.alert(
+            'Erro ao mandar mensagem', 
+            'Número de telefone está incorreto'
+         );
+      }
+   }
+
    return (
       <MainView>
          <ScrollView showsVerticalScrollIndicator={false}>
@@ -100,35 +154,19 @@ function ContatoUsuario() {
                </ViewIconsGroup>
 
                <ViewIconsGroup>
+                  <ViewIconsButton onPress={sendMessage}>
+                     <Icon name="message-square" size={22} color="#45505E" />
+                  </ViewIconsButton>
+
+                  <ViewIconsGroupText>Enviar SMS</ViewIconsGroupText>
+               </ViewIconsGroup>
+
+               <ViewIconsGroup>
                   <ViewIconsButton onPress={sendEmail}>
                      <Icon name="mail" size={22} color="#45505E" />
                   </ViewIconsButton>
 
-                  <ViewIconsGroupText>Email</ViewIconsGroupText>
-               </ViewIconsGroup>
-
-               <ViewIconsGroup>
-                  <ViewIconsButton onPress={() => setVisible({...visible, "editModal": true })}>
-                     <Icon name="edit-2" size={22} color="#45505E" />
-                  </ViewIconsButton>
-
-                  <ViewIconsGroupText>Editar</ViewIconsGroupText>
-               </ViewIconsGroup>
-
-               <ViewIconsGroup>
-                  <ViewIconsButton onPress={shareContact}>
-                     <Icon name="share-2" size={22} color="#45505E" />
-                  </ViewIconsButton>
-
-                  <ViewIconsGroupText>Compartilhar</ViewIconsGroupText>
-               </ViewIconsGroup>
-
-               <ViewIconsGroup>
-                  <ViewIconsButton onPress={() => setVisible({...visible, "deleteModal": true })}>
-                     <Icon name="trash-2" size={22} color="#45505E" />
-                  </ViewIconsButton>
-
-                  <ViewIconsGroupText>Excluir</ViewIconsGroupText>
+                  <ViewIconsGroupText>Enviar Email</ViewIconsGroupText>
                </ViewIconsGroup>
             </ViewIcons>
 
