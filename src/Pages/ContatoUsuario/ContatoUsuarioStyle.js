@@ -7,7 +7,7 @@ const MainView = styled.View`
 `;
 
 const ViewName = styled.View`
-   margin-top: 40px;
+   margin-top: 76px;
    gap: 16px;
    align-items: center;
 `;
@@ -40,8 +40,7 @@ const ViewIcons = styled.View`
    display: flex;
    flex-direction: row;
    justify-content: center;
-   //gap: 42px;
-   gap: 26px;
+   gap: 42px;
 `;
 
 const ViewIconsGroup = styled.View`
