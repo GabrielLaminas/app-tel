@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 
 const ModalView = styled.View`
-   padding: 24px 16px;
+   padding: 76px 16px 24px 16px;
    flex: 1;
    background-color: #FFFFFF;
 `;
