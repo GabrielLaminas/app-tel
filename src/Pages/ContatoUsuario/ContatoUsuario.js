@@ -11,6 +11,7 @@ import { useRoute } from "@react-navigation/native";
 import EditContact from "../../Components/Modal/EditContact.js";
 import { UserContext } from "../../context/userContext.js";
 import DeleteContact from "../../Components/Modal/DeleteContact.js";
+import ButtonsHeader from "../../Components/ButtonsHeader/ButtonsHeader.js";
 
 function ContatoUsuario({navigation}) {
    const { params } = useRoute();
@@ -45,36 +46,13 @@ function ContatoUsuario({navigation}) {
    useEffect(() => {
       navigation.setOptions({
          headerRight: () => (
-            <View style={{marginRight: 20, position: 'relative'}}>
-               <View style={{flexDirection: 'row', gap: 16, alignItems: 'center'}}>
-                  <TouchableOpacity onPress={() => {
-                     setVisibleMenu(false)
-                     setVisible({...visible, "editModal": true });
-                  }}>
-                     <Icon name="edit-2" size={22} color="#45505E" />
-                  </TouchableOpacity>
-
-                  <TouchableOpacity onPress={() => setVisibleMenu((prev) => !prev)} style={{paddingVertical: 6}}>
-                     <Icon name="more-vertical" size={22} color="#000" />
-                  </TouchableOpacity>
-               </View>
-
-               <View style={!visibleMenu ? {display: 'none'} : {
-                  position: 'absolute', top: '110%', right: -8, zIndex: 100, display: 'flex',
-                  paddingVertical: 10, paddingHorizontal: 20, gap: 14, borderRadius: 4, backgroundColor: '#FAFAFA', elevation: 2,
-               }}>
-                  <TouchableOpacity onPress={() => {
-                     setVisibleMenu(false)
-                     setVisible({...visible, "deleteModal": true })
-                  }}>
-                     <Text style={{textAlign: 'right', color: '#1A1E23'}}>Excluir</Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity onPress={shareContact}>
-                     <Text style={{textAlign: 'right', color: '#1A1E23'}}>Compartilhar</Text>
-                  </TouchableOpacity>
-               </View>
-            </View>
+            <ButtonsHeader 
+               visibleMenu={visibleMenu}
+               setVisibleMenu={setVisibleMenu}
+               modalVisible={visible}
+               modalSetVisible={setVisible}
+               shareContact={shareContact}
+            />
          )
       });
    }, [navigation, visibleMenu]);
