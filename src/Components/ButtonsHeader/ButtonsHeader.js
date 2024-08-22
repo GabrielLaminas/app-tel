@@ -24,7 +24,7 @@ function ButtonsHeader({visibleMenu, setVisibleMenu, modalVisible, modalSetVisib
           setVisibleMenu(false)
           modalSetVisible({...modalVisible, "deleteModal": true })
         }}>
-          <TextDropDown>Excluir</TextDropDown >
+          <TextDropDown>Excluir</TextDropDown>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={shareContact}>
