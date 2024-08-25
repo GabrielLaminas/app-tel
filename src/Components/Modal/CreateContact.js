@@ -34,7 +34,8 @@ const CreateContact = ({visible, setVisible}) => {
                nome: result.name,
                email: result.email,
                numero: result.phone,
-               extra: result.extra
+               extra: result.extra,
+               favorito: false
             });
          }
          setName('');

@@ -1,6 +1,7 @@
 import React from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../Firebase/firebase.js";
+import { ref, update } from "firebase/database";
+import { auth, database } from "../Firebase/firebase.js";
 
 export const UserContext = React.createContext();
 
@@ -26,11 +27,25 @@ function User({children}){
       await signOut(auth);
    }
 
+   async function updateFavorite(favoriteStatus, idContact){ 
+      try {
+         const referencia = ref(database, `AppTelContato/${credential?.uid}/${idContact}`);
+         if(favoriteStatus){
+            await update(referencia, { favorito: false })
+         } else {
+         await update(referencia, { favorito: true})
+         }
+      } catch (error) {
+         console.log(error)
+      }
+   }
+
    return(
       <UserContext.Provider value={{
          credential,
          user: credential?.uid,
-         loading, logOut
+         loading, logOut,
+         updateFavorite
       }}>
          {children}
       </UserContext.Provider>
