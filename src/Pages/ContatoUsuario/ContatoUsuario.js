@@ -36,6 +36,7 @@ function ContatoUsuario({navigation}) {
                numero: snapshot.val().numero,
                email: snapshot.val().email,
                extra: snapshot.val().extra,
+               favorito: snapshot.val().favorito,
             }
             setUserInfo(data);
          });
@@ -52,10 +53,12 @@ function ContatoUsuario({navigation}) {
                modalVisible={visible}
                modalSetVisible={setVisible}
                shareContact={shareContact}
+               isFavorite={userInfo?.favorito}
+               idContact={params.id}
             />
          )
       });
-   }, [navigation, visibleMenu]);
+   }, [navigation, visibleMenu, userInfo, params.id]);
 
    async function shareContact(){
       const title = `Compartilhar Contato`;
