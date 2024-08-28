@@ -33,7 +33,7 @@ function User({children}){
          if(favoriteStatus){
             await update(referencia, { favorito: false })
          } else {
-         await update(referencia, { favorito: true})
+            await update(referencia, { favorito: true })
          }
       } catch (error) {
          console.log(error)

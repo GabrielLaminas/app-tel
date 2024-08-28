@@ -7,6 +7,7 @@ import { UserContext } from "../context/userContext";
 import EditarPerfil from "../Pages/EditarPerfil/EditarPerfil";
 
 import CustomDrawerContent from "./CustomDrawer/CustomDrawerContent";
+import Favorito from "../Pages/Favorito/Favorito";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -17,10 +18,23 @@ function Root(){
    return (
       <Drawer.Navigator
          drawerContent={(props) => <CustomDrawerContent {...props} user={credential} logOut={logOut} />}
+         initialRouteName="Contato"
       >
          <Drawer.Screen 
             name="Contato" 
             component={Contato}
+            options={{
+               headerTitle: '',
+               headerShadowVisible: false,
+               headerStyle: {
+                  backgroundColor: '#FFF'
+               }
+            }} 
+         />
+
+         <Drawer.Screen 
+            name="Favorito"
+            component={Favorito}
             options={{
                headerTitle: '',
                headerShadowVisible: false,

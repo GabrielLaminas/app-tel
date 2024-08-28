@@ -39,9 +39,14 @@ const CustomDrawerContent = ({ navigation, user, logOut }) => {
          </ViewDataUser>
 
          <ViewNav>
-            <ViewNavLink active={activeRoute.name === 'Contato'} onPress={() => navigation.navigate('Root')}>
+            <ViewNavLink active={activeRoute.name === 'Contato'} onPress={() => navigation.navigate('Contato')}>
                <Icon name="home" size={24} color={activeRoute.name === 'Contato' ? '#fff' : '#000'}  />
                <ViewNavLinkText active={activeRoute.name === 'Contato'}>Tela Principal</ViewNavLinkText>
+            </ViewNavLink>
+
+            <ViewNavLink active={activeRoute.name === 'Favorito'} onPress={() => navigation.navigate('Favorito')}>
+               <Icon name="heart" size={24} color={activeRoute.name === 'Favorito' ? '#fff' : '#000'}  />
+               <ViewNavLinkText active={activeRoute.name === 'Favorito'}>Meus Favoritos</ViewNavLinkText>
             </ViewNavLink>
 
             <ViewNavLink onPress={() => navigation.navigate('EditarPerfil')}>

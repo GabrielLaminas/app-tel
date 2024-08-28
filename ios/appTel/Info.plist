@@ -50,6 +50,7 @@
 	<false/>
 	<array>
 		<string>Feather.ttf</string>
+		<string>MaterialIcons.ttf</string>
 	</array>
 </dict>
 </plist>
