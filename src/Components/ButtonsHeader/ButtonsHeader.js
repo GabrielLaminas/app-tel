@@ -2,6 +2,7 @@ import React from "react";
 import { TouchableOpacity } from "react-native";
 import { ContainerView, ViewButtons, ViewDropDown, TextDropDown } from "./ButtonsHeaderStyle";
 import Icon from "react-native-vector-icons/Feather.js"; 
+import FillIcon from "react-native-vector-icons/MaterialIcons.js"; 
 import { UserContext } from "../../context/userContext";
 
 function ButtonsHeader({
@@ -20,7 +21,10 @@ function ButtonsHeader({
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => updateFavorite(isFavorite, idContact)}>
-          <Icon name="heart" size={22} color={`${isFavorite ? "red" : "#45505E"}`} solid  />
+          { isFavorite 
+            ? <FillIcon name="favorite" size={22} color="#FF6348" />
+            : <Icon name="heart" size={22} color="#45505E" />
+          }
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => setVisibleMenu((prev) => !prev)} style={{paddingVertical: 6}}>

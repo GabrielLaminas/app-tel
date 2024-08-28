@@ -48,7 +48,7 @@ const ViewNavLink = styled.TouchableOpacity`
    flex-direction: row;
    gap: 12px;
    align-items: center;
-   background-color: ${({active}) => active ? '#2E7555': 'auto'};
+   background-color: ${({active}) => active ? '#2E7555': 'transparent'};
    border-radius: 6px;
 `;
 

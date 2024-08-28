@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { ScrollView, Share, Linking, Alert, View, TouchableOpacity, Text } from "react-native";
+import { ScrollView, Share, Linking, Alert } from "react-native";
 import { 
    MainView, ViewName, ViewNameCircle, ViewNameCircleLetter, ViewFullName,  ViewIcons, ViewIconsButton, ViewIconsGroup, ViewIconsGroupText,  ViewInfos, ViewInfosItem, ViewInfosItemTitle, ViewInfosItemBody
 } from "./ContatoUsuarioStyle.js"
