@@ -25,6 +25,32 @@ const CardViewNome = styled.Text`
   font-weight: 500;
 `;
 
+const ViewNoItems = styled.View`
+  gap: 8px;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ButtonToContato = styled.TouchableOpacity`
+  padding: 12px 24px;
+`;
+
+const ButtonToContatoText = styled.Text`
+  color: #2E7555;
+  font-size: 17px;
+  font-weight: 600;
+  text-align: center;
+`;
+
+const NoItemsList = styled.Text`
+  color: #45505E;
+  font-size: 17px;
+  font-weight: 400;
+  text-align: center;
+`;
+
 export {
-  MainView, ViewFlat, CardView, CardViewNome
+  MainView, ViewFlat, CardView, CardViewNome, ViewNoItems,
+  ButtonToContato, ButtonToContatoText, NoItemsList
 }

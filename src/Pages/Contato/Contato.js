@@ -90,7 +90,7 @@ function Card({data}){
    return (
       <TouchableOpacity style={{marginBottom: 16}} onPress={() => navigate('Usuario', {id: data.id})}>
          <CardView>
-            <CardViewNome>{data.nome}</CardViewNome>
+            <CardViewNome numberOfLines={1}>{data.nome}</CardViewNome>
             <CardViewNumero>{data.numero}</CardViewNumero>
          </CardView>
       </TouchableOpacity>
