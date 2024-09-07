@@ -2,6 +2,7 @@ import styled from 'styled-components/native';
 
 const MainView = styled.View`
    flex: 1;
+   padding: 100px 16px 16px 16px;
    background-color: #FFFFFF;
 `;
 

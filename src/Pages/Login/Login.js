@@ -55,10 +55,7 @@ function Login() {
 
    return (
       <MainView>
-         <ScrollView 
-            showsVerticalScrollIndicator={false} 
-            style={{paddingTop: 100, paddingBottom: 80, paddingHorizontal: 16}} 
-         >
+         <ScrollView showsVerticalScrollIndicator={false}>
             <Title>LISTA TELEFONICA</Title>
 
             <ContainerInput>

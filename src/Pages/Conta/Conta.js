@@ -71,10 +71,7 @@ function Conta() {
 
    return (
       <MainView>
-         <ScrollView 
-            showsVerticalScrollIndicator={false}
-            style={{paddingVertical: 30, paddingHorizontal: 16}} 
-         >
+         <ScrollView showsVerticalScrollIndicator={false}>
             <Title>CRIAR CONTA</Title>
 
             <ContainerInput>
