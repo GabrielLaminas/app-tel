@@ -18,7 +18,7 @@ const ViewDropDown = styled.View`
   top: 110%;
   right: -8px;
   z-index: 100;
-  background-color: "#FAFAFA";
+  background-color: #FAFAFA;
   display: ${({visible}) => visible ? 'flex' : 'none'};
   border-radius: 4px;
   border: 1px solid rgba(0, 0, 0, .1);
@@ -26,7 +26,7 @@ const ViewDropDown = styled.View`
 
 
 const TextDropDown = styled.Text`
-  color: "#1A1E23";
+  color: #1A1E23;
   text-align: right;
 `
 
