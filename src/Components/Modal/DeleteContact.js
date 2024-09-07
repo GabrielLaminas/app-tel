@@ -47,7 +47,7 @@ const DeleteContact = ({visible, setVisible, uid, userName}) => {
                   <BtnDelete onPress={() => removeContact()}>
                      {
                         loading 
-                        ? <ActivityIndicator size={27} color="#fff" />
+                        ? <ActivityIndicator size={24} color="#fff" />
                         : <BtnDeleteText>Excluir</BtnDeleteText>
                      }
                   </BtnDelete> 
@@ -73,26 +73,26 @@ const ModalContent = styled.View`
 
 const ModalContainer = styled.View`  
    width: 100%;
-   padding: 46px 24px 24px 24px;
+   padding: 32px 24px;
    background-color: #FFFFFF;
    border-radius: 14px;
 `
 
 const ModalTitle = styled.Text`
-   margin-bottom: 24px;
+   margin-bottom: 20px;
    color: #FF6348;
-   font-size: 28px;
+   font-size: 24px;
    font-weight: 700;
    text-align: center;
    text-transform: uppercase;
 `
 
 const ModalTextBody = styled.Text`
-   margin-bottom: 56px;
+   margin-bottom: 40px;
    color: #45505E;
-   font-size: 20px;
+   font-size: 18px;
    font-weight: 400;
-   line-height: 30px;
+   line-height: 28px;
 `
 
 const TextStrong = styled.Text`
@@ -106,7 +106,7 @@ const ContainerButtons = styled.View`
 
 const BtnDelete = styled.TouchableOpacity`
    flex: 1;
-   padding: 12px 24px;
+   padding: 10px 24px;
    flex-direction: row;
    gap: 8px;
    align-items: center;
@@ -117,20 +117,20 @@ const BtnDelete = styled.TouchableOpacity`
 
 const BtnDeleteText = styled.Text`
    color: #fff;
-   font-size: 20px;
+   font-size: 18px;
    font-weight: 600;
    text-align: center;
    text-transform: uppercase;
 `
 
 const BtnCancel = styled.TouchableOpacity`
-   padding: 12px 24px;
+   padding: 10px 24px;
    background-color: transparent;
 `
 
 const BtnCancelText = styled.Text`
    color: #45505E;
-   font-size: 20px;
+   font-size: 18px;
    font-weight: 600;
    text-align: center;
    text-transform: uppercase;
