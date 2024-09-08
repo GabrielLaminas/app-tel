@@ -58,7 +58,7 @@ function ContatoUsuario({navigation}) {
             />
          )
       });
-   }, [navigation, visibleMenu, userInfo, params.id]);
+   }, [navigation, visibleMenu, visible, userInfo, params.id]);
 
    async function shareContact(){
       const title = `Compartilhar Contato`;
