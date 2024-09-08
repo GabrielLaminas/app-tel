@@ -13,7 +13,7 @@ const ViewButtons = styled.View`
 
 const ViewDropDown = styled.View`
   padding: 10px 20px;
-  gap: 14px;
+  gap: 16px;
   position: absolute;
   top: 110%;
   right: -8px;
@@ -24,9 +24,9 @@ const ViewDropDown = styled.View`
   border: 1px solid rgba(0, 0, 0, .1);
 `;
 
-
 const TextDropDown = styled.Text`
   color: #1A1E23;
+  font-size: 16px;
   text-align: right;
 `
 
